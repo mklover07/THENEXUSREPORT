@@ -217,3 +217,40 @@ document.addEventListener('DOMContentLoaded', function() {
     if (path.includes('osint-lab.html')) renderOsint();
     if (path.includes('index.html') || path === '/' || path.endsWith('/')) renderHome();
 });
+// ============================================================
+// THEME TOGGLE
+// ============================================================
+function toggleTheme() {
+    const root = document.documentElement;
+    const currentTheme = root.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    root.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    
+    // Update button icon
+    const btn = document.querySelector('.theme-toggle i');
+    if (btn) {
+        btn.className = newTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+    }
+}
+
+// Load saved theme
+document.addEventListener('DOMContentLoaded', function() {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    
+    // Create theme toggle button if not exists
+    const nav = document.querySelector('.nav-links');
+    if (nav && !document.querySelector('.theme-toggle')) {
+        const toggleBtn = document.createElement('a');
+        toggleBtn.href = '#';
+        toggleBtn.className = 'theme-toggle';
+        toggleBtn.innerHTML = `<i class="fas ${savedTheme === 'light' ? 'fa-moon' : 'fa-sun'}"></i>`;
+        toggleBtn.style.marginLeft = '10px';
+        toggleBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            toggleTheme();
+        });
+        nav.appendChild(toggleBtn);
+    }
+});
