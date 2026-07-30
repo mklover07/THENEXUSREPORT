@@ -2,37 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Nexus Report — Intelligence • Investigation • Verification</title>
-  <!-- Meta SEO -->
-  <meta name="description" content="The Nexus Report: digital intelligence, cyber security awareness, OSINT research, scam alerts, and fact-checking platform. A professional research initiative.">
+  <meta name="description" content="The Nexus Report: digital intelligence, cyber security awareness, OSINT research, scam alerts, and fact-checking platform.">
   <meta property="og:title" content="The Nexus Report">
   <meta property="og:description" content="Intelligence • Investigation • Verification — Cyber crime awareness, scam alerts, digital investigation reports and OSINT research.">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="The Nexus Report">
   <meta name="twitter:description" content="Digital intelligence & cyber security awareness platform.">
-  <!-- Structured Data (Organization) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "The Nexus Report",
-    "url": "https://thenexusreport.github.io/THENEXUSREPORT/",
-    "description": "Digital intelligence, cyber security awareness, OSINT research, scam alerts and fact-checking.",
-    "tagline": "Intelligence • Investigation • Verification"
-  }
-  </script>
-  <!-- Font Awesome Icons (for clean modern icons) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    /* ----- RESET & VARIABLES (Cyber Intelligence Theme) ----- */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    /* ---------- RESET & BASE ---------- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
       --primary: #0A192F;
       --secondary: #00C2FF;
@@ -45,442 +27,510 @@
       --radius: 12px;
       --transition: 0.25s ease;
     }
-
     body {
       background-color: var(--bg);
       color: var(--text);
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       line-height: 1.6;
       padding: 0 20px;
     }
+    a { color: var(--secondary); text-decoration: none; transition: color var(--transition); }
+    a:hover { color: var(--accent); }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 16px; }
 
-    a {
-      color: var(--secondary);
-      text-decoration: none;
-      transition: color var(--transition);
-    }
-    a:hover {
-      color: var(--accent);
-    }
-
-    .container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 16px;
-    }
-
-    /* ----- HEADER / NAV ----- */
+    /* ---------- HEADER ---------- */
     .navbar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 0;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 30px;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom: 30px;
     }
+    .logo h1 { font-size: 1.8rem; font-weight: 600; letter-spacing: -0.5px; }
+    .logo span { color: var(--secondary); }
+    .tagline { font-size: 0.9rem; opacity: 0.7; letter-spacing: 1px; margin-top: 2px; }
+    .nav-links { display: flex; flex-wrap: wrap; gap: 18px; font-weight: 500; }
+    .nav-links a { color: #ddd; font-size: 0.95rem; padding: 6px 0; border-bottom: 2px solid transparent; }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent); border-bottom-color: var(--accent); }
 
-    .logo h1 {
-      font-size: 1.8rem;
-      font-weight: 600;
-      letter-spacing: -0.5px;
-    }
-    .logo span {
-      color: var(--secondary);
-    }
-    .tagline {
-      font-size: 0.9rem;
-      opacity: 0.7;
-      letter-spacing: 1px;
-      margin-top: 2px;
-    }
-
-    .nav-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 18px;
-      font-weight: 500;
-    }
-    .nav-links a {
-      color: #ddd;
-      font-size: 0.95rem;
-      padding: 6px 0;
-      border-bottom: 2px solid transparent;
-    }
-    .nav-links a:hover {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
-    }
-
-    /* ----- HERO ----- */
+    /* ---------- HERO ---------- */
     .hero {
       background: linear-gradient(145deg, #0F1A2E, #0A192F);
-      padding: 60px 30px;
-      border-radius: var(--radius);
-      margin-bottom: 40px;
-      border-left: 4px solid var(--secondary);
-      box-shadow: var(--shadow);
+      padding: 60px 30px; border-radius: var(--radius); margin-bottom: 40px;
+      border-left: 4px solid var(--secondary); box-shadow: var(--shadow);
     }
-    .hero h2 {
-      font-size: 2.8rem;
-      font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 12px;
-    }
-    .hero .highlight {
-      color: var(--accent);
-    }
-    .hero p {
-      font-size: 1.2rem;
-      max-width: 700px;
-      opacity: 0.9;
-      margin-bottom: 24px;
-    }
-    .hero .btn {
-      background: var(--secondary);
-      color: #0A192F;
-      font-weight: 600;
-      padding: 12px 30px;
-      border-radius: 40px;
-      display: inline-block;
+    .hero h2 { font-size: 2.8rem; font-weight: 700; line-height: 1.2; margin-bottom: 12px; }
+    .hero .highlight { color: var(--accent); }
+    .hero p { font-size: 1.2rem; max-width: 700px; opacity: 0.9; margin-bottom: 24px; }
+    .btn {
+      background: var(--secondary); color: #0A192F; font-weight: 600;
+      padding: 12px 30px; border-radius: 40px; display: inline-block;
       transition: background var(--transition), transform 0.2s;
-      box-shadow: 0 0 15px rgba(0,194,255,0.3);
+      box-shadow: 0 0 15px rgba(0,194,255,0.3); border: none; cursor: pointer;
     }
-    .hero .btn:hover {
-      background: var(--accent);
-      color: #0A192F;
-      transform: scale(1.03);
-    }
+    .btn:hover { background: var(--accent); color: #0A192F; transform: scale(1.03); }
+    .btn-outline { background: transparent; border: 2px solid var(--secondary); color: var(--secondary); box-shadow: none; }
+    .btn-outline:hover { background: var(--secondary); color: #0A192F; }
 
-    /* ----- SECTION TITLES ----- */
-    .section-title {
-      font-size: 2rem;
-      font-weight: 600;
-      margin: 40px 0 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .section-title i {
-      color: var(--secondary);
-      font-size: 1.8rem;
-    }
+    /* ---------- SECTION TITLES ---------- */
+    .section-title { font-size: 2rem; font-weight: 600; margin: 40px 0 20px; display: flex; align-items: center; gap: 12px; }
+    .section-title i { color: var(--secondary); font-size: 1.8rem; }
 
-    /* ----- GRID CARDS (news, alerts, investigations) ----- */
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 24px;
-      margin-bottom: 30px;
-    }
-
+    /* ---------- CARDS ---------- */
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; margin-bottom: 30px; }
     .card {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      padding: 20px 18px;
-      border: 1px solid var(--border);
-      transition: transform var(--transition), box-shadow var(--transition);
+      background: var(--card-bg); border-radius: var(--radius); padding: 20px 18px;
+      border: 1px solid var(--border); transition: transform var(--transition), box-shadow var(--transition);
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
-    .card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 30px rgba(0,194,255,0.15);
-      border-color: var(--secondary);
-    }
+    .card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(0,194,255,0.15); border-color: var(--secondary); }
     .card .badge {
-      background: var(--secondary);
-      color: #0A192F;
-      font-size: 0.7rem;
-      font-weight: 700;
-      padding: 2px 12px;
-      border-radius: 20px;
-      display: inline-block;
-      margin-bottom: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      background: var(--secondary); color: #0A192F; font-size: 0.7rem; font-weight: 700;
+      padding: 2px 12px; border-radius: 20px; display: inline-block; margin-bottom: 12px;
+      text-transform: uppercase; letter-spacing: 0.5px;
     }
-    .card .badge.accent {
-      background: var(--accent);
-      color: #0A192F;
-    }
-    .card h3 {
-      font-size: 1.25rem;
-      margin-bottom: 8px;
-    }
-    .card p {
-      opacity: 0.8;
-      font-size: 0.95rem;
-    }
-    .card .meta {
-      font-size: 0.8rem;
-      opacity: 0.5;
-      margin-top: 12px;
-    }
-    .card .link-arrow {
-      margin-top: 14px;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--secondary);
-      font-weight: 500;
-    }
+    .card .badge.accent { background: var(--accent); color: #0A192F; }
+    .card .badge.warning { background: #ffaa33; color: #0A192F; }
+    .card h3 { font-size: 1.25rem; margin-bottom: 8px; }
+    .card p { opacity: 0.8; font-size: 0.95rem; }
+    .card .meta { font-size: 0.8rem; opacity: 0.5; margin-top: 12px; }
+    .card .link-arrow { margin-top: 14px; display: inline-flex; align-items: center; gap: 6px; color: var(--secondary); font-weight: 500; cursor: pointer; }
+    .card .link-arrow:hover { color: var(--accent); }
+    .fact-status { font-weight: 600; }
+    .fact-status.true { color: var(--accent); }
+    .fact-status.false { color: #ff5555; }
+    .fact-status.pending { color: #ffaa33; }
 
-    /* ----- FACT CHECK special card ----- */
-    .fact-card {
-      border-left: 4px solid var(--accent);
+    /* ---------- PAGINATION ---------- */
+    .pagination { display: flex; gap: 10px; justify-content: center; margin: 30px 0; flex-wrap: wrap; }
+    .pagination button {
+      background: var(--card-bg); color: var(--text); border: 1px solid var(--border);
+      padding: 8px 16px; border-radius: 6px; cursor: pointer; transition: 0.2s;
     }
-    .fact-status {
-      color: var(--accent);
-      font-weight: 600;
-    }
+    .pagination button:hover, .pagination button.active { background: var(--secondary); color: #0A192F; border-color: var(--secondary); }
+    .pagination button:disabled { opacity: 0.3; cursor: not-allowed; }
 
-    /* ----- CTA SECTION ----- */
+    /* ---------- SEARCH & FILTER ---------- */
+    .search-bar {
+      display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; align-items: center;
+    }
+    .search-bar input, .search-bar select {
+      padding: 10px 16px; border-radius: 30px; border: 1px solid var(--border);
+      background: var(--card-bg); color: var(--text); font-size: 0.95rem; flex: 1 1 200px;
+    }
+    .search-bar input:focus, .search-bar select:focus { outline: 2px solid var(--secondary); border-color: transparent; }
+
+    /* ---------- CTA & FOOTER ---------- */
     .cta-section {
-      background: linear-gradient(135deg, #0A192F, #112240);
-      padding: 50px 30px;
-      border-radius: var(--radius);
-      text-align: center;
-      margin: 50px 0 30px;
+      background: linear-gradient(135deg, #0A192F, #112240); padding: 50px 30px;
+      border-radius: var(--radius); text-align: center; margin: 50px 0 30px;
       border: 1px solid var(--border);
     }
-    .cta-section h2 {
-      font-size: 2.2rem;
-      margin-bottom: 12px;
-    }
-    .cta-section .btn {
-      background: var(--accent);
-      color: #0A192F;
-      font-weight: 600;
-      padding: 14px 38px;
-      border-radius: 40px;
-      display: inline-block;
-      margin-top: 12px;
-      transition: 0.2s;
-      box-shadow: 0 0 20px rgba(0,255,136,0.2);
-    }
-    .cta-section .btn:hover {
-      background: #00e676;
-      transform: scale(1.02);
-    }
-
-    /* ----- FOOTER ----- */
+    .cta-section h2 { font-size: 2.2rem; margin-bottom: 12px; }
     .footer {
-      border-top: 1px solid var(--border);
-      padding: 40px 0 25px;
-      margin-top: 40px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
+      border-top: 1px solid var(--border); padding: 40px 0 25px; margin-top: 40px;
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
     }
-    .footer .brand {
-      font-weight: 600;
-      font-size: 1.1rem;
-    }
-    .footer .brand span {
-      color: var(--secondary);
-    }
-    .footer small {
-      opacity: 0.6;
-      font-size: 0.9rem;
-    }
-    .footer .social i {
-      font-size: 1.4rem;
-      margin-left: 16px;
-      color: #bbb;
-      transition: color var(--transition);
-    }
-    .footer .social i:hover {
-      color: var(--accent);
-    }
+    .footer .brand { font-weight: 600; font-size: 1.1rem; }
+    .footer .brand span { color: var(--secondary); }
+    .footer small { opacity: 0.6; font-size: 0.9rem; }
+    .footer .social i { font-size: 1.4rem; margin-left: 16px; color: #bbb; transition: color var(--transition); }
+    .footer .social i:hover { color: var(--accent); }
 
-    /* ----- RESPONSIVE ----- */
+    /* ---------- PAGE SPECIFIC ---------- */
+    .page-header { margin-bottom: 30px; }
+    .page-header h2 { font-size: 2.4rem; }
+    .page-header p { opacity: 0.7; }
+
+    /* ---------- CONTACT FORM ---------- */
+    .contact-form { max-width: 600px; margin: 0 auto; }
+    .contact-form input, .contact-form textarea {
+      width: 100%; padding: 12px 16px; margin-bottom: 16px;
+      border-radius: 8px; border: 1px solid var(--border);
+      background: var(--card-bg); color: var(--text); font-size: 1rem;
+    }
+    .contact-form input:focus, .contact-form textarea:focus { outline: 2px solid var(--secondary); }
+    .contact-form textarea { min-height: 140px; resize: vertical; }
+
+    /* ---------- RESPONSIVE ---------- */
     @media (max-width: 768px) {
-      .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-      }
-      .nav-links {
-        gap: 12px;
-        flex-wrap: wrap;
-      }
-      .hero h2 {
-        font-size: 2.2rem;
-      }
-      .section-title {
-        font-size: 1.7rem;
-      }
-      .card-grid {
-        grid-template-columns: 1fr;
-      }
-      .footer {
-        flex-direction: column;
-        gap: 16px;
-        align-items: flex-start;
-      }
+      .navbar { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .nav-links { gap: 12px; flex-wrap: wrap; }
+      .hero h2 { font-size: 2.2rem; }
+      .section-title { font-size: 1.7rem; }
+      .card-grid { grid-template-columns: 1fr; }
+      .footer { flex-direction: column; gap: 16px; align-items: flex-start; }
+      .two-col { grid-template-columns: 1fr !important; }
     }
-
-    @media (max-width: 480px) {
-      body { padding: 0 12px; }
-      .hero { padding: 30px 18px; }
-      .hero h2 { font-size: 1.8rem; }
-    }
-
-    /* scrollbar style (optional) */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #0A192F; }
-    ::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 10px; }
+    @media (max-width: 480px) { body { padding: 0 12px; } .hero { padding: 30px 18px; } .hero h2 { font-size: 1.8rem; } }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 20px; }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
   <div class="container">
 
-    <!-- HEADER -->
+    <!-- ====== HEADER ====== -->
     <header class="navbar">
       <div class="logo">
         <h1>THE <span>NEXUS</span> REPORT</h1>
         <div class="tagline">Intelligence • Investigation • Verification</div>
       </div>
-      <nav class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="news.html">News</a>
-        <a href="cyber-alerts.html">Cyber Alerts</a>
-        <a href="investigations.html">Investigations</a>
-        <a href="fact-check.html">Fact Check</a>
-        <a href="osint-lab.html">OSINT Lab</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
+      <nav class="nav-links" id="mainNav">
+        <a href="#" data-page="home" class="active">Home</a>
+        <a href="#" data-page="news">News</a>
+        <a href="#" data-page="alerts">Cyber Alerts</a>
+        <a href="#" data-page="investigations">Investigations</a>
+        <a href="#" data-page="factcheck">Fact Check</a>
+        <a href="#" data-page="osint">OSINT Lab</a>
+        <a href="#" data-page="about">About</a>
+        <a href="#" data-page="contact">Contact</a>
       </nav>
     </header>
 
-    <!-- HERO -->
-    <section class="hero">
-      <h2>Digital Intelligence & <span class="highlight">Cyber Awareness</span></h2>
-      <p>Uncover scams, verify facts, and explore OSINT research. The Nexus Report delivers investigative journalism and cyber security intelligence for a safer digital world.</p>
-      <a href="news.html" class="btn"><i class="fas fa-bolt" style="margin-right:8px;"></i> Explore Latest Reports</a>
-    </section>
+    <!-- ====== PAGE CONTAINER ====== -->
+    <div id="pageContainer">
 
-    <!-- LATEST NEWS SECTION -->
-    <div class="section-title"><i class="fas fa-newspaper"></i> Latest News</div>
-    <div class="card-grid">
-      <div class="card">
-        <span class="badge">Cyber Crime</span>
-        <h3>Ransomware Group Targets Energy Sector</h3>
-        <p>New wave of attacks exploiting unpatched VPN appliances. Critical infrastructure at risk.</p>
-        <div class="meta"><i class="far fa-clock"></i> 2 hours ago</div>
-        <a href="#" class="link-arrow">Read more <i class="fas fa-arrow-right"></i></a>
+      <!-- ===== HOME ===== -->
+      <div id="page-home">
+        <section class="hero">
+          <h2>Digital Intelligence & <span class="highlight">Cyber Awareness</span></h2>
+          <p>Uncover scams, verify facts, and explore OSINT research. The Nexus Report delivers investigative journalism and cyber security intelligence for a safer digital world.</p>
+          <a href="#" class="btn" data-nav="news"><i class="fas fa-bolt" style="margin-right:8px;"></i> Explore Latest Reports</a>
+        </section>
+
+        <div class="section-title"><i class="fas fa-newspaper"></i> Latest News</div>
+        <div class="card-grid" id="homeNews"></div>
+
+        <div class="two-col">
+          <div>
+            <div class="section-title" style="margin-top:0;"><i class="fas fa-exclamation-triangle" style="color: #ffaa33;"></i> Cyber Alerts</div>
+            <div id="homeAlerts"></div>
+          </div>
+          <div>
+            <div class="section-title" style="margin-top:0;"><i class="fas fa-check-circle" style="color: var(--accent);"></i> Fact Check</div>
+            <div id="homeFactCheck"></div>
+          </div>
+        </div>
+
+        <div class="section-title"><i class="fas fa-microscope"></i> OSINT Lab & Investigations</div>
+        <div class="card-grid" id="homeOsint"></div>
+
+        <section class="cta-section">
+          <h2>Stay Ahead of Threats</h2>
+          <p style="max-width:600px; margin:0 auto 10px;">Subscribe to our intelligence briefings — no spam, only verified research and cyber alerts.</p>
+          <a href="#" class="btn" data-nav="contact"><i class="fas fa-envelope" style="margin-right:8px;"></i> Get in Touch</a>
+        </section>
       </div>
-      <div class="card">
-        <span class="badge">Tech Intel</span>
-        <h3>AI-Powered Phishing Detection Breakthrough</h3>
-        <p>Researchers unveil model with 99.2% accuracy in identifying zero-day phishing campaigns.</p>
-        <div class="meta"><i class="far fa-clock"></i> 6 hours ago</div>
-        <a href="#" class="link-arrow">Read more <i class="fas fa-arrow-right"></i></a>
+
+      <!-- ===== NEWS ===== -->
+      <div id="page-news" class="hidden">
+        <div class="page-header"><h2>Latest News</h2><p>Cyber security, technology intelligence, and digital investigations.</p></div>
+        <div class="search-bar">
+          <input type="text" id="newsSearch" placeholder="Search news...">
+          <select id="newsFilter"><option value="all">All Categories</option><option value="Cyber Crime">Cyber Crime</option><option value="Tech Intel">Tech Intel</option><option value="OSINT">OSINT</option><option value="Scam">Scam</option></select>
+        </div>
+        <div class="card-grid" id="newsGrid"></div>
+        <div class="pagination" id="newsPagination"></div>
       </div>
-      <div class="card">
-        <span class="badge">OSINT</span>
-        <h3>Geolocation Analysis Exposes Disinformation Network</h3>
-        <p>Open-source intelligence traces coordinated influence operations across social media.</p>
-        <div class="meta"><i class="far fa-clock"></i> 1 day ago</div>
-        <a href="#" class="link-arrow">Read more <i class="fas fa-arrow-right"></i></a>
+
+      <!-- ===== CYBER ALERTS ===== -->
+      <div id="page-alerts" class="hidden">
+        <div class="page-header"><h2>Cyber Alerts</h2><p>Latest scam alerts, phishing warnings, and fraud reports.</p></div>
+        <div class="card-grid" id="alertsGrid"></div>
+      </div>
+
+      <!-- ===== INVESTIGATIONS ===== -->
+      <div id="page-investigations" class="hidden">
+        <div class="page-header"><h2>Investigations</h2><p>Case studies, research reports, and evidence-based analysis.</p></div>
+        <div class="card-grid" id="investigationsGrid"></div>
+      </div>
+
+      <!-- ===== FACT CHECK ===== -->
+      <div id="page-factcheck" class="hidden">
+        <div class="page-header"><h2>Fact Check</h2><p>Claims verified with sources and analysis.</p></div>
+        <div class="card-grid" id="factcheckGrid"></div>
+      </div>
+
+      <!-- ===== OSINT LAB ===== -->
+      <div id="page-osint" class="hidden">
+        <div class="page-header"><h2>OSINT Lab</h2><p>Open Source Intelligence research, methodologies, and educational content.</p></div>
+        <div class="card-grid" id="osintGrid"></div>
+      </div>
+
+      <!-- ===== ABOUT ===== -->
+      <div id="page-about" class="hidden">
+        <div class="page-header"><h2>About The Nexus Report</h2></div>
+        <div style="max-width:800px; background:var(--card-bg); padding:30px; border-radius:var(--radius); border:1px solid var(--border);">
+          <p style="font-size:1.1rem; margin-bottom:16px;"><strong>The Nexus Report</strong> is a professional digital intelligence, cyber security awareness, investigative research, OSINT analysis, technology news, scam alert, and fact-checking platform.</p>
+          <p style="margin-bottom:12px;">This is <strong>not</strong> a gossip, entertainment, or clickbait news website. Our primary focus:</p>
+          <ul style="list-style:none; display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:16px 0;">
+            <li><i class="fas fa-check-circle" style="color:var(--accent);"></i> Cyber Crime Awareness</li>
+            <li><i class="fas fa-check-circle" style="color:var(--accent);"></i> Scam & Fraud Alerts</li>
+            <li><i class="fas fa-check-circle" style="color:var(--accent);"></i> Digital Investigation Reports</li>
+            <li><i class="fas fa-check-circle" style="color:var(--accent);"></i> OSINT Research</li>
+            <li><i class="fas fa-check-circle" style="color:var(--accent);"></i> Fact Checking</li>
+            <li><i class="fas fa-check-circle" style="color:var(--accent);"></i> Cyber Security News</li>
+            <li><i class="fas fa-check-circle" style="color:var(--accent);"></i> Technology Intelligence</li>
+            <li><i class="fas fa-check-circle" style="color:var(--accent);"></i> Public Awareness Content</li>
+          </ul>
+          <p style="opacity:0.7; font-size:0.95rem; border-top:1px solid var(--border); padding-top:16px;"><i class="fas fa-shield-alt" style="color:var(--secondary);"></i> A Digital Intelligence & Research Initiative of MK Global Nexus.</p>
+        </div>
+      </div>
+
+      <!-- ===== CONTACT ===== -->
+      <div id="page-contact" class="hidden">
+        <div class="page-header"><h2>Contact Us</h2><p>Reach out for research collaborations, tips, or inquiries.</p></div>
+        <div class="contact-form">
+          <form id="contactForm">
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Email Address" required>
+            <input type="text" placeholder="Subject">
+            <textarea placeholder="Your message..."></textarea>
+            <button type="submit" class="btn" style="width:100%; text-align:center;"><i class="fas fa-paper-plane"></i> Send Message</button>
+          </form>
+          <div style="text-align:center; margin-top:30px;">
+            <p style="opacity:0.6;">Follow us on social media</p>
+            <div style="display:flex; gap:20px; justify-content:center; font-size:1.8rem; margin-top:10px;">
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#"><i class="fab fa-github"></i></a>
+              <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- CYBER ALERTS + FACT CHECK (two columns on larger) -->
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 20px;">
-      <div>
-        <div class="section-title" style="margin-top:0;"><i class="fas fa-exclamation-triangle" style="color: #ffaa33;"></i> Cyber Alerts</div>
-        <div class="card" style="border-left: 4px solid #ffaa33;">
-          <span class="badge" style="background:#ffaa33; color:#0A192F;">⚠️ Urgent</span>
-          <h3>Fake "Security Update" SMS Campaign</h3>
-          <p>Fraudulent messages impersonating banks. Do not click any links. Report to your provider.</p>
-          <div class="meta"><i class="fas fa-shield-alt"></i> Phishing alert</div>
-          <a href="#" class="link-arrow">View alert <i class="fas fa-arrow-right"></i></a>
-        </div>
-        <div class="card" style="margin-top: 16px; border-left: 4px solid #ffaa33;">
-          <span class="badge" style="background:#ffaa33; color:#0A192F;">⚠️ Scam</span>
-          <h3>Fake Investment Platform "CryptoVault"</h3>
-          <p>Promises high returns, but drains wallets. Multiple victims reported. Stay vigilant.</p>
-          <div class="meta"><i class="fas fa-user-secret"></i> Fraud report</div>
-          <a href="#" class="link-arrow">View alert <i class="fas fa-arrow-right"></i></a>
-        </div>
-      </div>
-      <div>
-        <div class="section-title" style="margin-top:0;"><i class="fas fa-check-circle" style="color: var(--accent);"></i> Fact Check</div>
-        <div class="card fact-card">
-          <span class="badge accent">Verified</span>
-          <h3>Claim: "5G networks cause COVID-19"</h3>
-          <p><span class="fact-status"><i class="fas fa-times-circle" style="color:#ff5555;"></i> False</span> — No scientific evidence. WHO and independent researchers debunk.</p>
-          <div class="meta">Sources: WHO, IEEE, Reuters</div>
-          <a href="#" class="link-arrow">Full analysis <i class="fas fa-arrow-right"></i></a>
-        </div>
-        <div class="card fact-card" style="margin-top: 16px;">
-          <span class="badge accent">In Progress</span>
-          <h3>Claim: "New malware steals banking data via QR"</h3>
-          <p>Under investigation. Early OSINT suggests targeted campaigns in Southeast Asia.</p>
-          <div class="meta">Status: verifying sources</div>
-          <a href="#" class="link-arrow">Follow case <i class="fas fa-arrow-right"></i></a>
-        </div>
-      </div>
-    </div>
-
-    <!-- OSINT LAB & INVESTIGATIONS (two cards) -->
-    <div class="section-title"><i class="fas fa-microscope"></i> OSINT Lab & Investigations</div>
-    <div class="card-grid">
-      <div class="card">
-        <span class="badge">Research</span>
-        <h3>Using Metadata to Track Disinformation</h3>
-        <p>Methodology: extracting geolocation and timestamp patterns from social media images.</p>
-        <div class="meta"><i class="fas fa-database"></i> OSINT technique</div>
-        <a href="#" class="link-arrow">Explore lab <i class="fas fa-arrow-right"></i></a>
-      </div>
-      <div class="card">
-        <span class="badge">Case Study</span>
-        <h3>DarkMarket Takedown: OSINT Analysis</h3>
-        <p>How open-source intelligence contributed to the disruption of a major illicit marketplace.</p>
-        <div class="meta"><i class="fas fa-gavel"></i> Investigation</div>
-        <a href="#" class="link-arrow">Read report <i class="fas fa-arrow-right"></i></a>
-      </div>
-      <div class="card">
-        <span class="badge">Technology</span>
-        <h3>AI & OSINT: Automating Threat Intelligence</h3>
-        <p>Leveraging large language models to filter and prioritize open-source threats.</p>
-        <div class="meta"><i class="fas fa-robot"></i> Research</div>
-        <a href="#" class="link-arrow">Read more <i class="fas fa-arrow-right"></i></a>
-      </div>
-    </div>
-
-    <!-- CTA SECTION -->
-    <section class="cta-section">
-      <h2>Stay Ahead of Threats</h2>
-      <p style="max-width:600px; margin:0 auto 10px;">Subscribe to our intelligence briefings — no spam, only verified research and cyber alerts.</p>
-      <a href="contact.html" class="btn"><i class="fas fa-envelope" style="margin-right:8px;"></i> Get in Touch</a>
-    </section>
-
-    <!-- FOOTER -->
+    <!-- ====== FOOTER ====== -->
     <footer class="footer">
       <div>
         <div class="brand">THE <span>NEXUS</span> REPORT</div>
         <small>A Digital Intelligence & Research Initiative of MK Global Nexus</small>
-        <div style="margin-top: 6px; font-size:0.8rem; opacity:0.4;">© 2026 · All rights reserved.</div>
+        <div style="margin-top:6px; font-size:0.8rem; opacity:0.4;">© 2026 · All rights reserved.</div>
       </div>
       <div class="social">
-        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
-        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#"><i class="fab fa-github"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
       </div>
     </footer>
-
   </div>
-  <!-- minimal vanilla JS (just for demonstration, no tracking) -->
+
   <script>
-    (function() {
-      // Simple console greeting (no personal data)
-      console.log('The Nexus Report · Intelligence · Investigation · Verification');
-      // Any interactive placeholder can be extended
-    })();
+    // ============================================================
+    // DATA (simulated content)
+    // ============================================================
+    const DATA = {
+      news: [
+        { id:1, category:'Cyber Crime', title:'Ransomware Group Targets Energy Sector', desc:'New wave of attacks exploiting unpatched VPN appliances. Critical infrastructure at risk.', time:'2 hours ago' },
+        { id:2, category:'Tech Intel', title:'AI-Powered Phishing Detection Breakthrough', desc:'Researchers unveil model with 99.2% accuracy in identifying zero-day phishing campaigns.', time:'6 hours ago' },
+        { id:3, category:'OSINT', title:'Geolocation Analysis Exposes Disinformation Network', desc:'Open-source intelligence traces coordinated influence operations across social media.', time:'1 day ago' },
+        { id:4, category:'Cyber Crime', title:'Healthcare Data Breach Affects 2.3M Patients', desc:'Sensitive medical records exposed due to misconfigured cloud storage.', time:'2 days ago' },
+        { id:5, category:'Scam', title:'Fake Crypto Exchange "BitTradeX" Steals Millions', desc:'Victims lured with promises of high returns; platform vanished overnight.', time:'3 days ago' },
+        { id:6, category:'Tech Intel', title:'Quantum-Resistant Encryption Standards Released', desc:'NIST announces post-quantum cryptography algorithms for future security.', time:'4 days ago' },
+        { id:7, category:'OSINT', title:'Social Media Manipulation Campaign Mapped', desc:'OSINT researchers identify coordinated bot networks influencing political discourse.', time:'5 days ago' },
+        { id:8, category:'Cyber Crime', title:'Supply Chain Attack Hits Software Vendor', desc:'Malicious code injected into popular library, affecting thousands of applications.', time:'6 days ago' },
+      ],
+      alerts: [
+        { id:1, title:'Fake "Security Update" SMS Campaign', desc:'Fraudulent messages impersonating banks. Do not click any links.', severity:'Urgent', type:'Phishing' },
+        { id:2, title:'Fake Investment Platform "CryptoVault"', desc:'Promises high returns, but drains wallets. Multiple victims reported.', severity:'Urgent', type:'Scam' },
+        { id:3, title:'Job Offer Scam Targeting Graduates', desc:'Fake recruiters asking for "processing fees" for non-existent positions.', severity:'High', type:'Scam' },
+        { id:4, title:'Malicious QR Codes in Parking Meters', desc:'Scammers place fake QR codes that steal payment information.', severity:'Medium', type:'Phishing' },
+      ],
+      investigations: [
+        { id:1, title:'DarkMarket Takedown: OSINT Analysis', desc:'How open-source intelligence contributed to disrupting a major illicit marketplace.', type:'Case Study' },
+        { id:2, title:'Tracking State-Sponsored Hackers', desc:'Evidence-based analysis of advanced persistent threat groups targeting critical infrastructure.', type:'Research Report' },
+        { id:3, title:'Financial Fraud Network Exposed', desc:'Investigative deep-dive into a money laundering operation using crypto mixers.', type:'Investigation' },
+        { id:4, title:'Disinformation Campaign in Southeast Asia', desc:'Mapping fake news networks and their influence on public opinion.', type:'Research Report' },
+      ],
+      factchecks: [
+        { id:1, claim:'5G networks cause COVID-19', status:'False', sources:'WHO, IEEE, Reuters', detail:'No scientific evidence supports this claim. Multiple studies debunk the conspiracy.' },
+        { id:2, claim:'New malware steals banking data via QR', status:'In Progress', sources:'Under investigation', detail:'Early OSINT suggests targeted campaigns in Southeast Asia. Verifying sources.' },
+        { id:3, claim:'Biden administration banned TikTok', status:'False', sources:'White House, AP', detail:'No such ban has been enacted. Legislative proposals are under review.' },
+        { id:4, claim:'Solar panels cause cancer', status:'False', sources:'NIH, WHO, EPA', detail:'No credible scientific evidence links solar panel exposure to cancer.' },
+      ],
+      osint: [
+        { id:1, title:'Using Metadata to Track Disinformation', desc:'Methodology: extracting geolocation and timestamp patterns from social media images.', type:'Methodology' },
+        { id:2, title:'AI & OSINT: Automating Threat Intelligence', desc:'Leveraging large language models to filter and prioritize open-source threats.', type:'Research' },
+        { id:3, title:'Public Data Analysis: Exposing Fraud Rings', desc:'Using publicly available data to identify patterns of fraudulent activity.', type:'Technique' },
+        { id:4, title:'Social Network Analysis for OSINT', desc:'Mapping connections and influence using graph theory and open data.', type:'Educational' },
+      ]
+    };
+
+    // ============================================================
+    // RENDER HELPERS
+    // ============================================================
+    function renderCard(item, type) {
+      let badge = item.category || item.type || item.severity || 'Info';
+      let badgeClass = '';
+      if (item.severity === 'Urgent') badgeClass = 'warning';
+      else if (item.status === 'False') badgeClass = 'warning';
+      else if (item.status === 'True') badgeClass = 'accent';
+      else if (item.category === 'Cyber Crime') badgeClass = '';
+      else if (item.category === 'Tech Intel') badgeClass = '';
+      else if (item.category === 'OSINT') badgeClass = '';
+      else if (item.type === 'Case Study') badgeClass = '';
+      else badgeClass = 'accent';
+
+      let statusHtml = '';
+      if (item.status) {
+        let cls = item.status === 'False' ? 'false' : (item.status === 'In Progress' ? 'pending' : 'true');
+        statusHtml = `<span class="fact-status ${cls}"><i class="fas ${item.status === 'False' ? 'fa-times-circle' : (item.status === 'In Progress' ? 'fa-clock' : 'fa-check-circle')}"></i> ${item.status}</span>`;
+      }
+
+      let meta = '';
+      if (item.time) meta = `<i class="far fa-clock"></i> ${item.time}`;
+      else if (item.sources) meta = `Sources: ${item.sources}`;
+      else if (item.type) meta = `<i class="fas fa-tag"></i> ${item.type}`;
+
+      return `
+        <div class="card">
+          <span class="badge ${badgeClass}">${badge}</span>
+          <h3>${item.title}</h3>
+          <p>${item.desc || item.claim || ''}</p>
+          ${statusHtml ? `<div style="margin:6px 0;">${statusHtml}</div>` : ''}
+          ${item.detail ? `<p style="font-size:0.9rem; opacity:0.7; margin-top:4px;">${item.detail}</p>` : ''}
+          <div class="meta">${meta}</div>
+          <a href="#" class="link-arrow">Read more <i class="fas fa-arrow-right"></i></a>
+        </div>
+      `;
+    }
+
+    function renderCards(arr, container, type) {
+      if (!container) return;
+      container.innerHTML = arr.map(item => renderCard(item, type)).join('');
+    }
+
+    // ============================================================
+    // NAVIGATION
+    // ============================================================
+    const pages = ['home','news','alerts','investigations','factcheck','osint','about','contact'];
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const pageEls = {};
+    pages.forEach(p => { pageEls[p] = document.getElementById('page-'+p); });
+
+    function showPage(page) {
+      pages.forEach(p => {
+        if (pageEls[p]) pageEls[p].classList.toggle('hidden', p !== page);
+      });
+      navLinks.forEach(a => {
+        a.classList.toggle('active', a.dataset.page === page);
+      });
+      // re-render dynamic content if needed
+      if (page === 'news') renderNews();
+      if (page === 'alerts') renderAlerts();
+      if (page === 'investigations') renderInvestigations();
+      if (page === 'factcheck') renderFactCheck();
+      if (page === 'osint') renderOsint();
+      if (page === 'home') renderHome();
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    navLinks.forEach(a => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        const page = a.dataset.page;
+        if (page) showPage(page);
+      });
+    });
+
+    // data-nav attributes on buttons
+    document.querySelectorAll('[data-nav]').forEach(el => {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        const page = el.dataset.nav;
+        if (page) showPage(page);
+      });
+    });
+
+    // ============================================================
+    // RENDER FUNCTIONS (with pagination & search)
+    // ============================================================
+    let newsPage = 1;
+    const perPage = 4;
+
+    function renderNews() {
+      const search = document.getElementById('newsSearch').value.toLowerCase();
+      const filter = document.getElementById('newsFilter').value;
+      let items = DATA.news.filter(n => {
+        const matchSearch = n.title.toLowerCase().includes(search) || n.desc.toLowerCase().includes(search);
+        const matchFilter = filter === 'all' || n.category === filter;
+        return matchSearch && matchFilter;
+      });
+      const totalPages = Math.ceil(items.length / perPage) || 1;
+      if (newsPage > totalPages) newsPage = totalPages;
+      const start = (newsPage-1)*perPage;
+      const pageItems = items.slice(start, start+perPage);
+      const grid = document.getElementById('newsGrid');
+      if (pageItems.length === 0) {
+        grid.innerHTML = '<p style="opacity:0.6; grid-column:1/-1; text-align:center;">No news found.</p>';
+      } else {
+        renderCards(pageItems, grid);
+      }
+      // pagination
+      const pag = document.getElementById('newsPagination');
+      pag.innerHTML = '';
+      const prevBtn = document.createElement('button');
+      prevBtn.textContent = '‹';
+      prevBtn.disabled = newsPage === 1;
+      prevBtn.onclick = () => { if(newsPage>1){newsPage--; renderNews();} };
+      pag.appendChild(prevBtn);
+      for (let i=1; i<=totalPages; i++) {
+        const b = document.createElement('button');
+        b.textContent = i;
+        b.className = i === newsPage ? 'active' : '';
+        b.onclick = () => { newsPage = i; renderNews(); };
+        pag.appendChild(b);
+      }
+      const nextBtn = document.createElement('button');
+      nextBtn.textContent = '›';
+      nextBtn.disabled = newsPage === totalPages;
+      nextBtn.onclick = () => { if(newsPage<totalPages){newsPage++; renderNews();} };
+      pag.appendChild(nextBtn);
+    }
+
+    function renderAlerts() {
+      renderCards(DATA.alerts, document.getElementById('alertsGrid'));
+    }
+    function renderInvestigations() {
+      renderCards(DATA.investigations, document.getElementById('investigationsGrid'));
+    }
+    function renderFactCheck() {
+      renderCards(DATA.factchecks, document.getElementById('factcheckGrid'));
+    }
+    function renderOsint() {
+      renderCards(DATA.osint, document.getElementById('osintGrid'));
+    }
+
+    function renderHome() {
+      // latest 3 news
+      renderCards(DATA.news.slice(0,3), document.getElementById('homeNews'));
+      // alerts (2)
+      renderCards(DATA.alerts.slice(0,2), document.getElementById('homeAlerts'));
+      // fact check (2)
+      renderCards(DATA.factchecks.slice(0,2), document.getElementById('homeFactCheck'));
+      // osint (2)
+      renderCards(DATA.osint.slice(0,2), document.getElementById('homeOsint'));
+    }
+
+    // ============================================================
+    // CONTACT FORM
+    // ============================================================
+    document.getElementById('contactForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('Thank you for reaching out. The Nexus Report team will respond within 24 hours. (Demo)');
+      e.target.reset();
+    });
+
+    // ============================================================
+    // SEARCH/FILTER EVENTS
+    // ============================================================
+    document.getElementById('newsSearch').addEventListener('input', () => { newsPage=1; renderNews(); });
+    document.getElementById('newsFilter').addEventListener('change', () => { newsPage=1; renderNews(); });
+
+    // ============================================================
+    // INIT
+    // ============================================================
+    showPage('home');
   </script>
 </body>
 </html>
