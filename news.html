@@ -1,28 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>News - The Nexus Report</title>
-<link rel="stylesheet" href="assets/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News — The Nexus Report</title>
+    <meta name="description" content="Latest cyber security news, technology intelligence, and digital investigations.">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+    <div class="container">
+        <header class="navbar">
+            <div class="logo">
+                <h1>THE <span>NEXUS</span> REPORT</h1>
+                <div class="tagline">Intelligence • Investigation • Verification</div>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="news.html" class="active">News</a>
+                <a href="cyber-alerts.html">Cyber Alerts</a>
+                <a href="investigations.html">Investigations</a>
+                <a href="fact-check.html">Fact Check</a>
+                <a href="osint-lab.html">OSINT Lab</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </header>
 
-<h1>Latest News</h1>
+        <div class="page-header">
+            <h2>Latest News</h2>
+            <p>Cyber security, technology intelligence, and digital investigations.</p>
+        </div>
 
-<article>
-<h2>Cyber Crime Alert</h2>
-<p>
-Stay informed about emerging scams, phishing attacks and digital fraud trends.
-</p>
-</article>
+        <div class="search-bar">
+            <input type="text" id="newsSearch" placeholder="Search news...">
+            <select id="newsFilter">
+                <option value="all">All Categories</option>
+                <option value="Cyber Crime">Cyber Crime</option>
+                <option value="Tech Intel">Tech Intel</option>
+                <option value="OSINT">OSINT</option>
+                <option value="Scam">Scam</option>
+            </select>
+        </div>
 
-<article>
-<h2>Technology Updates</h2>
-<p>
-Latest developments in cyber security and digital intelligence.
-</p>
-</article>
+        <div class="card-grid" id="newsGrid"></div>
+        <div class="pagination" id="newsPagination"></div>
 
-<a href="index.html">Back Home</a>
-
+        <footer class="footer">
+            <div>
+                <div class="brand">THE <span>NEXUS</span> REPORT</div>
+                <small>A Digital Intelligence & Research Initiative of MK Global Nexus</small>
+                <div style="margin-top:6px; font-size:0.8rem; opacity:0.4;">© 2026 · All rights reserved.</div>
+            </div>
+            <div class="social">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+        </footer>
+    </div>
+    <script src="assets/js/main.js"></script>
 </body>
 </html>
