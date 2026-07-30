@@ -7,9 +7,122 @@
     <meta name="description" content="Latest scam alerts, phishing warnings, and fraud reports.">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Cyber Alerts specific styles */
+        .alert-urgent {
+            border-left: 4px solid #ff3333 !important;
+            background: rgba(255, 51, 51, 0.05) !important;
+        }
+        
+        .alert-high {
+            border-left: 4px solid #ffaa33 !important;
+            background: rgba(255, 170, 51, 0.05) !important;
+        }
+        
+        .alert-medium {
+            border-left: 4px solid #ffcc00 !important;
+            background: rgba(255, 204, 0, 0.05) !important;
+        }
+        
+        .alert-low {
+            border-left: 4px solid #33ccff !important;
+            background: rgba(51, 204, 255, 0.05) !important;
+        }
+        
+        .alert-badge {
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .alert-badge.urgent {
+            background: #ff3333;
+            color: white;
+        }
+        
+        .alert-badge.high {
+            background: #ffaa33;
+            color: #0A192F;
+        }
+        
+        .alert-badge.medium {
+            background: #ffcc00;
+            color: #0A192F;
+        }
+        
+        .alert-badge.low {
+            background: #33ccff;
+            color: #0A192F;
+        }
+        
+        .alert-time {
+            color: #ff6b6b;
+            font-weight: 600;
+        }
+        
+        .alert-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+        
+        .alert-stat-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: var(--radius);
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+        
+        .alert-stat-card .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+        
+        .alert-stat-card .label {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            margin-top: 4px;
+        }
+        
+        @media (max-width: 768px) {
+            .alert-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        .refresh-btn {
+            background: var(--secondary);
+            color: #0A192F;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all var(--transition);
+            margin-left: 12px;
+        }
+        
+        .refresh-btn:hover {
+            background: var(--accent);
+            transform: scale(1.05);
+        }
+        
+        .refresh-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
+        <!-- HEADER -->
         <header class="navbar">
             <div class="logo">
                 <h1>THE <span>NEXUS</span> REPORT</h1>
@@ -27,13 +140,54 @@
             </nav>
         </header>
 
+        <!-- PAGE HEADER -->
         <div class="page-header">
-            <h2>Cyber Alerts</h2>
-            <p>Latest scam alerts, phishing warnings, and fraud reports.</p>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                <div>
+                    <h2>🚨 Cyber Alerts</h2>
+                    <p>Latest scam alerts, phishing warnings, and fraud reports from around the world.</p>
+                </div>
+                <button class="refresh-btn" id="refreshAlerts">
+                    <i class="fas fa-sync-alt"></i> Refresh Alerts
+                </button>
+            </div>
         </div>
 
-        <div class="card-grid" id="alertsGrid"></div>
+        <!-- STATS -->
+        <div class="alert-stats" id="alertStats">
+            <div class="alert-stat-card">
+                <div class="number" id="totalAlerts">0</div>
+                <div class="label">Total Alerts</div>
+            </div>
+            <div class="alert-stat-card">
+                <div class="number" id="urgentAlerts" style="color: #ff3333;">0</div>
+                <div class="label">🚨 Urgent</div>
+            </div>
+            <div class="alert-stat-card">
+                <div class="number" id="highAlerts" style="color: #ffaa33;">0</div>
+                <div class="label">⚠️ High</div>
+            </div>
+            <div class="alert-stat-card">
+                <div class="number" id="mediumAlerts" style="color: #ffcc00;">0</div>
+                <div class="label">📢 Medium</div>
+            </div>
+        </div>
 
+        <!-- ALERTS GRID -->
+        <div class="card-grid" id="alertsGrid">
+            <div class="loading-spinner" style="grid-column: 1/-1;">
+                <i class="fas fa-spinner"></i> Loading alerts...
+            </div>
+        </div>
+
+        <!-- CTA SECTION -->
+        <section class="cta-section">
+            <h2>🔒 Stay Protected</h2>
+            <p>Subscribe to get real-time cyber alerts and security updates directly in your inbox.</p>
+            <a href="contact.html" class="btn"><i class="fas fa-envelope"></i> Get Alerts</a>
+        </section>
+
+        <!-- FOOTER -->
         <footer class="footer">
             <div>
                 <div class="brand">THE <span>NEXUS</span> REPORT</div>
@@ -48,6 +202,12 @@
             </div>
         </footer>
     </div>
+
+    <!-- BACK TO TOP -->
+    <button id="backToTop" aria-label="Back to Top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
     <script src="assets/js/main.js"></script>
 </body>
 </html>
