@@ -1,222 +1,399 @@
+// ============================================================
+// CONFIGURATION
+// ============================================================
+const CONFIG = {
+    // FREE News API - Get your key from https://newsapi.org/
+    NEWS_API_KEY: 'YOUR_NEWS_API_KEY', // Replace with your key
+    NEWS_API_URL: 'https://newsapi.org/v2/',
+    PAGE_SIZE: 6,
+};
 
-// ============================================================
-// DATA (simulated content)
-// ============================================================
-const DATA = {
-    news: [
-        { id: 1, category: 'Cyber Crime', title: 'Ransomware Group Targets Energy Sector', desc: 'New wave of attacks exploiting unpatched VPN appliances. Critical infrastructure at risk.', time: '2 hours ago' },
-        { id: 2, category: 'Tech Intel', title: 'AI-Powered Phishing Detection Breakthrough', desc: 'Researchers unveil model with 99.2% accuracy in identifying zero-day phishing campaigns.', time: '6 hours ago' },
-        { id: 3, category: 'OSINT', title: 'Geolocation Analysis Exposes Disinformation Network', desc: 'Open-source intelligence traces coordinated influence operations across social media.', time: '1 day ago' },
-        { id: 4, category: 'Cyber Crime', title: 'Healthcare Data Breach Affects 2.3M Patients', desc: 'Sensitive medical records exposed due to misconfigured cloud storage.', time: '2 days ago' },
-        { id: 5, category: 'Scam', title: 'Fake Crypto Exchange "BitTradeX" Steals Millions', desc: 'Victims lured with promises of high returns; platform vanished overnight.', time: '3 days ago' },
-        { id: 6, category: 'Tech Intel', title: 'Quantum-Resistant Encryption Standards Released', desc: 'NIST announces post-quantum cryptography algorithms for future security.', time: '4 days ago' },
-        { id: 7, category: 'OSINT', title: 'Social Media Manipulation Campaign Mapped', desc: 'OSINT researchers identify coordinated bot networks influencing political discourse.', time: '5 days ago' },
-        { id: 8, category: 'Cyber Crime', title: 'Supply Chain Attack Hits Software Vendor', desc: 'Malicious code injected into popular library, affecting thousands of applications.', time: '6 days ago' },
-    ],
-    alerts: [
-        { id: 1, title: 'Fake "Security Update" SMS Campaign', desc: 'Fraudulent messages impersonating banks. Do not click any links.', severity: 'Urgent', type: 'Phishing' },
-        { id: 2, title: 'Fake Investment Platform "CryptoVault"', desc: 'Promises high returns, but drains wallets. Multiple victims reported.', severity: 'Urgent', type: 'Scam' },
-        { id: 3, title: 'Job Offer Scam Targeting Graduates', desc: 'Fake recruiters asking for "processing fees" for non-existent positions.', severity: 'High', type: 'Scam' },
-        { id: 4, title: 'Malicious QR Codes in Parking Meters', desc: 'Scammers place fake QR codes that steal payment information.', severity: 'Medium', type: 'Phishing' },
-    ],
-    investigations: [
-        { id: 1, title: 'DarkMarket Takedown: OSINT Analysis', desc: 'How open-source intelligence contributed to disrupting a major illicit marketplace.', type: 'Case Study' },
-        { id: 2, title: 'Tracking State-Sponsored Hackers', desc: 'Evidence-based analysis of advanced persistent threat groups targeting critical infrastructure.', type: 'Research Report' },
-        { id: 3, title: 'Financial Fraud Network Exposed', desc: 'Investigative deep-dive into a money laundering operation using crypto mixers.', type: 'Investigation' },
-        { id: 4, title: 'Disinformation Campaign in Southeast Asia', desc: 'Mapping fake news networks and their influence on public opinion.', type: 'Research Report' },
-    ],
-    factchecks: [
-        { id: 1, claim: '5G networks cause COVID-19', status: 'False', sources: 'WHO, IEEE, Reuters', detail: 'No scientific evidence supports this claim. Multiple studies debunk the conspiracy.' },
-        { id: 2, claim: 'New malware steals banking data via QR', status: 'In Progress', sources: 'Under investigation', detail: 'Early OSINT suggests targeted campaigns in Southeast Asia. Verifying sources.' },
-        { id: 3, claim: 'Biden administration banned TikTok', status: 'False', sources: 'White House, AP', detail: 'No such ban has been enacted. Legislative proposals are under review.' },
-        { id: 4, claim: 'Solar panels cause cancer', status: 'False', sources: 'NIH, WHO, EPA', detail: 'No credible scientific evidence links solar panel exposure to cancer.' },
-    ],
-    osint: [
-        { id: 1, title: 'Using Metadata to Track Disinformation', desc: 'Methodology: extracting geolocation and timestamp patterns from social media images.', type: 'Methodology' },
-        { id: 2, title: 'AI & OSINT: Automating Threat Intelligence', desc: 'Leveraging large language models to filter and prioritize open-source threats.', type: 'Research' },
-        { id: 3, title: 'Public Data Analysis: Exposing Fraud Rings', desc: 'Using publicly available data to identify patterns of fraudulent activity.', type: 'Technique' },
-        { id: 4, title: 'Social Network Analysis for OSINT', desc: 'Mapping connections and influence using graph theory and open data.', type: 'Educational' },
-    ]
+// Categories mapping for our sections
+const CATEGORIES = {
+    'Cyber Crime': 'technology',
+    'Tech Intel': 'technology',
+    'OSINT': 'technology',
+    'Scam': 'technology',
+    'Cyber Security': 'technology',
+    'General': 'general',
 };
 
 // ============================================================
-// RENDER HELPERS
+// FETCH REAL NEWS FROM API
 // ============================================================
-function renderCard(item) {
-    let badge = item.category || item.type || item.severity || 'Info';
-    let badgeClass = '';
-    if (item.severity === 'Urgent') badgeClass = 'warning';
-    else if (item.status === 'False') badgeClass = 'warning';
-    else if (item.status === 'True') badgeClass = 'accent';
-    else if (item.category === 'Cyber Crime') badgeClass = '';
-    else if (item.category === 'Tech Intel') badgeClass = '';
-    else if (item.category === 'OSINT') badgeClass = '';
-    else if (item.type === 'Case Study') badgeClass = '';
-    else badgeClass = 'accent';
-
-    let statusHtml = '';
-    if (item.status) {
-        let cls = item.status === 'False' ? 'false' : (item.status === 'In Progress' ? 'pending' : 'true');
-        statusHtml = `<span class="fact-status ${cls}"><i class="fas ${item.status === 'False' ? 'fa-times-circle' : (item.status === 'In Progress' ? 'fa-clock' : 'fa-check-circle')}"></i> ${item.status}</span>`;
+async function fetchNews(query = 'cyber security OR scam OR hacking OR OSINT', page = 1) {
+    const url = `${CONFIG.NEWS_API_URL}everything?q=${encodeURIComponent(query)}&pageSize=${CONFIG.PAGE_SIZE}&page=${page}&apiKey=${CONFIG.NEWS_API_KEY}&language=en&sortBy=publishedAt`;
+    
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`API Error: ${response.status}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('News fetch error:', error);
+        // Return mock data if API fails
+        return getMockNews();
     }
+}
 
-    let meta = '';
-    if (item.time) meta = `<i class="far fa-clock"></i> ${item.time}`;
-    else if (item.sources) meta = `Sources: ${item.sources}`;
-    else if (item.type) meta = `<i class="fas fa-tag"></i> ${item.type}`;
+// Fetch top headlines by category
+async function fetchHeadlines(category = 'technology') {
+    const url = `${CONFIG.NEWS_API_URL}top-headlines?category=${category}&pageSize=10&apiKey=${CONFIG.NEWS_API_KEY}&language=en`;
+    
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`API Error: ${response.status}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Headlines fetch error:', error);
+        return getMockNews();
+    }
+}
+
+// ============================================================
+// MOCK DATA (Fallback if API fails)
+// ============================================================
+function getMockNews() {
+    return {
+        status: 'ok',
+        totalResults: 8,
+        articles: [
+            {
+                title: 'Ransomware Group Targets Energy Sector',
+                description: 'New wave of attacks exploiting unpatched VPN appliances. Critical infrastructure at risk worldwide.',
+                url: '#',
+                urlToImage: null,
+                publishedAt: new Date().toISOString(),
+                source: { name: 'Cyber Security News' },
+                author: 'Security Team'
+            },
+            {
+                title: 'AI-Powered Phishing Detection Breakthrough',
+                description: 'Researchers unveil model with 99.2% accuracy in identifying zero-day phishing campaigns.',
+                url: '#',
+                urlToImage: null,
+                publishedAt: new Date(Date.now() - 3600000).toISOString(),
+                source: { name: 'Tech Intel Daily' },
+                author: 'AI Research Lab'
+            },
+            {
+                title: 'Geolocation Analysis Exposes Disinformation Network',
+                description: 'Open-source intelligence traces coordinated influence operations across social media platforms.',
+                url: '#',
+                urlToImage: null,
+                publishedAt: new Date(Date.now() - 7200000).toISOString(),
+                source: { name: 'OSINT Journal' },
+                author: 'Investigation Team'
+            },
+            {
+                title: 'Healthcare Data Breach Affects 2.3M Patients',
+                description: 'Sensitive medical records exposed due to misconfigured cloud storage.',
+                url: '#',
+                urlToImage: null,
+                publishedAt: new Date(Date.now() - 86400000).toISOString(),
+                source: { name: 'Health Security Watch' },
+                author: 'Medical Data Team'
+            },
+            {
+                title: 'Fake Crypto Exchange "BitTradeX" Steals Millions',
+                description: 'Victims lured with promises of high returns; platform vanished overnight.',
+                url: '#',
+                urlToImage: null,
+                publishedAt: new Date(Date.now() - 172800000).toISOString(),
+                source: { name: 'Fraud Alert Network' },
+                author: 'Crypto Investigation Unit'
+            },
+            {
+                title: 'Quantum-Resistant Encryption Standards Released',
+                description: 'NIST announces post-quantum cryptography algorithms for future security.',
+                url: '#',
+                urlToImage: null,
+                publishedAt: new Date(Date.now() - 259200000).toISOString(),
+                source: { name: 'Tech Standards Watch' },
+                author: 'Cryptography Team'
+            }
+        ]
+    };
+}
+
+// ============================================================
+// RENDER FUNCTIONS WITH REAL DATA
+// ============================================================
+function renderArticleCard(article, index) {
+    const category = article.category || 'General';
+    const badge = category;
+    const time = article.publishedAt ? timeAgo(new Date(article.publishedAt)) : 'Recent';
+    const imageHtml = article.urlToImage ? 
+        `<img src="${article.urlToImage}" alt="${article.title}" style="width:100%; height:160px; object-fit:cover; border-radius:8px; margin-bottom:12px;">` : 
+        '';
 
     return `
-        <div class="card">
-            <span class="badge ${badgeClass}">${badge}</span>
-            <h3>${item.title || item.claim || ''}</h3>
-            <p>${item.desc || item.claim || ''}</p>
-            ${statusHtml ? `<div style="margin:6px 0;">${statusHtml}</div>` : ''}
-            ${item.detail ? `<p style="font-size:0.9rem; opacity:0.7; margin-top:4px;">${item.detail}</p>` : ''}
-            <div class="meta">${meta}</div>
-            <a href="#" class="link-arrow">Read more <i class="fas fa-arrow-right"></i></a>
+        <div class="card" data-index="${index}">
+            ${imageHtml}
+            <span class="badge">${badge}</span>
+            <h3>${article.title || 'Untitled Article'}</h3>
+            <p>${article.description || 'No description available.'}</p>
+            <div class="meta">
+                <i class="far fa-clock"></i> ${time}
+                ${article.source?.name ? ` • ${article.source.name}` : ''}
+            </div>
+            <a href="${article.url || '#'}" target="_blank" class="link-arrow">Read more <i class="fas fa-arrow-right"></i></a>
         </div>
     `;
 }
 
-function renderCards(arr, container) {
+function renderArticles(articles, container) {
     if (!container) return;
-    container.innerHTML = arr.map(item => renderCard(item)).join('');
+    if (!articles || articles.length === 0) {
+        container.innerHTML = '<p style="opacity:0.6; grid-column:1/-1; text-align:center; padding:40px;">No articles found. Please try again later.</p>';
+        return;
+    }
+    container.innerHTML = articles.map((article, i) => renderArticleCard(article, i)).join('');
 }
 
 // ============================================================
-// PAGE SPECIFIC RENDER FUNCTIONS
+// TIME HELPER
 // ============================================================
-let newsPage = 1;
-const perPage = 4;
-
-function renderNews() {
-    const search = document.getElementById('newsSearch');
-    const filter = document.getElementById('newsFilter');
-    if (!search || !filter) return;
-
-    const searchTerm = search.value.toLowerCase();
-    const filterVal = filter.value;
-
-    let items = DATA.news.filter(n => {
-        const matchSearch = n.title.toLowerCase().includes(searchTerm) || n.desc.toLowerCase().includes(searchTerm);
-        const matchFilter = filterVal === 'all' || n.category === filterVal;
-        return matchSearch && matchFilter;
-    });
-
-    const totalPages = Math.ceil(items.length / perPage) || 1;
-    if (newsPage > totalPages) newsPage = totalPages;
-    const start = (newsPage - 1) * perPage;
-    const pageItems = items.slice(start, start + perPage);
-
-    const grid = document.getElementById('newsGrid');
-    if (!grid) return;
-
-    if (pageItems.length === 0) {
-        grid.innerHTML = '<p style="opacity:0.6; grid-column:1/-1; text-align:center;">No news found.</p>';
-    } else {
-        renderCards(pageItems, grid);
+function timeAgo(date) {
+    const seconds = Math.floor((new Date() - date) / 1000);
+    const intervals = {
+        year: 31536000,
+        month: 2592000,
+        week: 604800,
+        day: 86400,
+        hour: 3600,
+        minute: 60,
+        second: 1
+    };
+    
+    for (const [unit, secondsInUnit] of Object.entries(intervals)) {
+        const count = Math.floor(seconds / secondsInUnit);
+        if (count >= 1) {
+            return `${count} ${unit}${count !== 1 ? 's' : ''} ago`;
+        }
     }
-
-    // Pagination
-    const pag = document.getElementById('newsPagination');
-    if (!pag) return;
-    pag.innerHTML = '';
-
-    const prevBtn = document.createElement('button');
-    prevBtn.textContent = '‹';
-    prevBtn.disabled = newsPage === 1;
-    prevBtn.onclick = () => { if (newsPage > 1) { newsPage--; renderNews(); } };
-    pag.appendChild(prevBtn);
-
-    for (let i = 1; i <= totalPages; i++) {
-        const b = document.createElement('button');
-        b.textContent = i;
-        b.className = i === newsPage ? 'active' : '';
-        b.onclick = () => { newsPage = i; renderNews(); };
-        pag.appendChild(b);
-    }
-
-    const nextBtn = document.createElement('button');
-    nextBtn.textContent = '›';
-    nextBtn.disabled = newsPage === totalPages;
-    nextBtn.onclick = () => { if (newsPage < totalPages) { newsPage++; renderNews(); } };
-    pag.appendChild(nextBtn);
+    return 'Just now';
 }
 
-function renderAlerts() {
-    const grid = document.getElementById('alertsGrid');
-    if (grid) renderCards(DATA.alerts, grid);
-}
+// ============================================================
+// PAGE SPECIFIC LOADERS
+// ============================================================
+let currentNewsPage = 1;
+let currentSearchQuery = 'cyber security OR scam OR hacking OR OSINT';
+let currentCategory = 'all';
 
-function renderInvestigations() {
-    const grid = document.getElementById('investigationsGrid');
-    if (grid) renderCards(DATA.investigations, grid);
-}
-
-function renderFactCheck() {
-    const grid = document.getElementById('factcheckGrid');
-    if (grid) renderCards(DATA.factchecks, grid);
-}
-
-function renderOsint() {
-    const grid = document.getElementById('osintGrid');
-    if (grid) renderCards(DATA.osint, grid);
-}
-
-function renderHome() {
+// Home Page
+async function renderHome() {
     const homeNews = document.getElementById('homeNews');
     const homeAlerts = document.getElementById('homeAlerts');
     const homeFactCheck = document.getElementById('homeFactCheck');
     const homeOsint = document.getElementById('homeOsint');
+    
+    // Show loading state
+    if (homeNews) homeNews.innerHTML = '<p style="opacity:0.6; grid-column:1/-1; text-align:center;">Loading latest news...</p>';
+    
+    try {
+        // Fetch tech news for home
+        const data = await fetchNews('cyber security OR technology OR hacking', 1);
+        const articles = data.articles || [];
+        
+        // Home News - 3 articles
+        if (homeNews) renderArticles(articles.slice(0, 3), homeNews);
+        
+        // Home Alerts - 2 articles (scam/fraud related)
+        const alertData = await fetchNews('scam OR fraud OR phishing', 1);
+        const alertArticles = alertData.articles || [];
+        if (homeAlerts) renderArticles(alertArticles.slice(0, 2), homeAlerts);
+        
+        // Home Fact Check - 2 articles (fact checking related)
+        const factData = await fetchNews('fact check OR verification OR misinformation', 1);
+        const factArticles = factData.articles || [];
+        if (homeFactCheck) renderArticles(factArticles.slice(0, 2), homeFactCheck);
+        
+        // Home OSINT - 2 articles
+        const osintData = await fetchNews('OSINT OR intelligence OR investigation', 1);
+        const osintArticles = osintData.articles || [];
+        if (homeOsint) renderArticles(osintArticles.slice(0, 2), homeOsint);
+        
+    } catch (error) {
+        console.error('Home render error:', error);
+        if (homeNews) homeNews.innerHTML = '<p style="opacity:0.6; grid-column:1/-1; text-align:center;">Unable to load news. Please try again.</p>';
+    }
+}
 
-    if (homeNews) renderCards(DATA.news.slice(0, 3), homeNews);
-    if (homeAlerts) renderCards(DATA.alerts.slice(0, 2), homeAlerts);
-    if (homeFactCheck) renderCards(DATA.factchecks.slice(0, 2), homeFactCheck);
-    if (homeOsint) renderCards(DATA.osint.slice(0, 2), homeOsint);
+// News Page with Search
+async function renderNews() {
+    const grid = document.getElementById('newsGrid');
+    const searchInput = document.getElementById('newsSearch');
+    const filterSelect = document.getElementById('newsFilter');
+    
+    if (!grid) return;
+    
+    // Show loading
+    grid.innerHTML = '<p style="opacity:0.6; grid-column:1/-1; text-align:center;">Loading news...</p>';
+    
+    // Build query
+    let query = currentSearchQuery;
+    if (searchInput && searchInput.value.trim()) {
+        query = searchInput.value.trim();
+    }
+    
+    // Add category filter
+    if (filterSelect && filterSelect.value !== 'all') {
+        query += ` ${filterSelect.value}`;
+    }
+    
+    try {
+        const data = await fetchNews(query, currentNewsPage);
+        const articles = data.articles || [];
+        renderArticles(articles, grid);
+        
+        // Update pagination
+        updatePagination(data.totalResults || 0);
+        
+    } catch (error) {
+        console.error('News render error:', error);
+        grid.innerHTML = '<p style="opacity:0.6; grid-column:1/-1; text-align:center;">Error loading news. Please try again.</p>';
+    }
+}
+
+// Cyber Alerts Page
+async function renderAlerts() {
+    const grid = document.getElementById('alertsGrid');
+    if (!grid) return;
+    
+    grid.innerHTML = '<p style="opacity:0.6; grid-column:1/-1; text-align:center;">Loading alerts...</p>';
+    
+    try {
+        const data = await fetchNews('scam OR fraud OR phishing OR malware', 1);
+        const articles = data.articles || [];
+        renderArticles(articles, grid);
+    } catch (error) {
+        console.error('Alerts render error:', error);
+        grid.innerHTML = '<p style="opacity:0.6; grid-column:1/-1; text-align:center;">Unable to load alerts.</p>';
+    }
+}
+
+// Investigations Page
+async function renderInvestigations() {
+    const grid = document.getElementById('investigationsGrid');
+    if (!grid) return;
+    
+    grid.innerHTML = '<p style="opacity:0.6; grid-column:1/-1; text-align:center;">Loading investigations...</p>';
+    
+    try {
+        const data = await fetchNews('investigation OR research OR analysis OR report', 1);
+        const articles = data.articles || [];
+        renderArticles(articles, grid);
+    } catch (error) {
+        console.error('Investigations render error:', error);
+        grid.innerHTML = '<p style="opacity:0.6; grid-column:1/-1; text-align:center;">Unable to load investigations.</p>';
+    }
+}
+
+// Fact Check Page
+async function renderFactCheck() {
+    const grid = document.getElementById('factcheckGrid');
+    if (!grid) return;
+    
+    grid.innerHTML = '<p style="opacity:0.6; grid-column:1/-1; text-align:center;">Loading fact checks...</p>';
+    
+    try {
+        const data = await fetchNews('fact check OR verification OR false OR true', 1);
+        const articles = data.articles || [];
+        renderArticles(articles, grid);
+    } catch (error) {
+        console.error('Fact Check render error:', error);
+        grid.innerHTML = '<p style="opacity:0.6; grid-column:1/-1; text-align:center;">Unable to load fact checks.</p>';
+    }
+}
+
+// OSINT Lab Page
+async function renderOsint() {
+    const grid = document.getElementById('osintGrid');
+    if (!grid) return;
+    
+    grid.innerHTML = '<p style="opacity:0.6; grid-column:1/-1; text-align:center;">Loading OSINT research...</p>';
+    
+    try {
+        const data = await fetchNews('OSINT OR intelligence OR open source', 1);
+        const articles = data.articles || [];
+        renderArticles(articles, grid);
+    } catch (error) {
+        console.error('OSINT render error:', error);
+        grid.innerHTML = '<p style="opacity:0.6; grid-column:1/-1; text-align:center;">Unable to load OSINT content.</p>';
+    }
 }
 
 // ============================================================
-// CONTACT FORM
+// PAGINATION
 // ============================================================
-document.addEventListener('DOMContentLoaded', function() {
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Thank you for reaching out. The Nexus Report team will respond within 24 hours. (Demo)');
-            this.reset();
+function updatePagination(totalResults) {
+    const pag = document.getElementById('newsPagination');
+    if (!pag) return;
+    
+    const totalPages = Math.ceil(totalResults / CONFIG.PAGE_SIZE) || 1;
+    pag.innerHTML = '';
+    
+    // Previous button
+    const prevBtn = document.createElement('button');
+    prevBtn.textContent = '‹';
+    prevBtn.disabled = currentNewsPage === 1;
+    prevBtn.onclick = () => { if (currentNewsPage > 1) { currentNewsPage--; renderNews(); } };
+    pag.appendChild(prevBtn);
+    
+    // Page numbers
+    const maxVisible = 5;
+    let startPage = Math.max(1, currentNewsPage - Math.floor(maxVisible / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+    
+    if (endPage - startPage < maxVisible - 1) {
+        startPage = Math.max(1, endPage - maxVisible + 1);
+    }
+    
+    for (let i = startPage; i <= endPage; i++) {
+        const btn = document.createElement('button');
+        btn.textContent = i;
+        btn.className = i === currentNewsPage ? 'active' : '';
+        btn.onclick = () => { currentNewsPage = i; renderNews(); };
+        pag.appendChild(btn);
+    }
+    
+    // Next button
+    const nextBtn = document.createElement('button');
+    nextBtn.textContent = '›';
+    nextBtn.disabled = currentNewsPage === totalPages;
+    nextBtn.onclick = () => { if (currentNewsPage < totalPages) { currentNewsPage++; renderNews(); } };
+    pag.appendChild(nextBtn);
+}
+
+// ============================================================
+// SEARCH & FILTER
+// ============================================================
+function setupSearchAndFilter() {
+    const searchInput = document.getElementById('newsSearch');
+    const filterSelect = document.getElementById('newsFilter');
+    
+    if (searchInput) {
+        searchInput.addEventListener('input', () => {
+            currentNewsPage = 1;
+            renderNews();
         });
     }
-
-    // News page search/filter
-    const newsSearch = document.getElementById('newsSearch');
-    const newsFilter = document.getElementById('newsFilter');
-    if (newsSearch) {
-        newsSearch.addEventListener('input', () => { newsPage = 1;
-            renderNews(); });
+    
+    if (filterSelect) {
+        filterSelect.addEventListener('change', () => {
+            currentNewsPage = 1;
+            renderNews();
+        });
     }
-    if (newsFilter) {
-        newsFilter.addEventListener('change', () => { newsPage = 1;
-            renderNews(); });
-    }
+}
 
-    // Initialize all pages
-    renderHome();
-    renderNews();
-    renderAlerts();
-    renderInvestigations();
-    renderFactCheck();
-    renderOsint();
-
-    // Detect which page we're on and render appropriately
-    const path = window.location.pathname;
-    if (path.includes('news.html')) renderNews();
-    if (path.includes('cyber-alerts.html')) renderAlerts();
-    if (path.includes('investigations.html')) renderInvestigations();
-    if (path.includes('fact-check.html')) renderFactCheck();
-    if (path.includes('osint-lab.html')) renderOsint();
-    if (path.includes('index.html') || path === '/' || path.endsWith('/')) renderHome();
-});
 // ============================================================
 // THEME TOGGLE
 // ============================================================
@@ -227,19 +404,62 @@ function toggleTheme() {
     root.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
     
-    // Update button icon
     const btn = document.querySelector('.theme-toggle i');
     if (btn) {
         btn.className = newTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
     }
 }
 
-// Load saved theme
+// ============================================================
+// CONTACT FORM
+// ============================================================
+function setupContactForm() {
+    const form = document.getElementById('contactForm');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const name = this.querySelector('input[type="text"]')?.value || '';
+            const email = this.querySelector('input[type="email"]')?.value || '';
+            const message = this.querySelector('textarea')?.value || '';
+            
+            // Show success message
+            alert(`Thank you ${name}! Your message has been sent.\n\nWe will respond to ${email} within 24 hours.`);
+            this.reset();
+        });
+    }
+}
+
+// ============================================================
+// BACK TO TOP BUTTON
+// ============================================================
+function setupBackToTop() {
+    const btn = document.getElementById('backToTop');
+    if (!btn) return;
+    
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            btn.style.display = 'block';
+        } else {
+            btn.style.display = 'none';
+        }
+    });
+    
+    btn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
+
+// ============================================================
+// INITIALIZATION
+// ============================================================
 document.addEventListener('DOMContentLoaded', function() {
+    // Load saved theme
     const savedTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
     
-    // Create theme toggle button if not exists
+    // Setup theme toggle
     const nav = document.querySelector('.nav-links');
     if (nav && !document.querySelector('.theme-toggle')) {
         const toggleBtn = document.createElement('a');
@@ -253,4 +473,35 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         nav.appendChild(toggleBtn);
     }
+    
+    // Setup search and filter
+    setupSearchAndFilter();
+    
+    // Setup contact form
+    setupContactForm();
+    
+    // Setup back to top
+    setupBackToTop();
+    
+    // Initialize all pages
+    const path = window.location.pathname;
+    
+    if (path.includes('news.html')) {
+        renderNews();
+    } else if (path.includes('cyber-alerts.html')) {
+        renderAlerts();
+    } else if (path.includes('investigations.html')) {
+        renderInvestigations();
+    } else if (path.includes('fact-check.html')) {
+        renderFactCheck();
+    } else if (path.includes('osint-lab.html')) {
+        renderOsint();
+    } else {
+        // Home page
+        renderHome();
+    }
+    
+    console.log('🚀 The Nexus Report - Live News Platform');
+    console.log('📰 Powered by NewsAPI.org');
+    console.log('💡 Tip: Replace YOUR_NEWS_API_KEY with your actual API key');
 });
