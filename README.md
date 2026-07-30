@@ -1,2 +1,7 @@
-# THENEXUSREPORT
-The Nexus Report - Digital Intelligence, Cyber Security &amp; Investigative Research Platform by MK Global Nexus
+# The Nexus Report
+
+Intelligence • Investigation • Verification
+
+The Nexus Report is a digital intelligence, cyber security, investigative research and public awareness platform.
+
+Powered by MK Global Nexus.
