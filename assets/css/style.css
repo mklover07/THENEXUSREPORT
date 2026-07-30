@@ -456,3 +456,38 @@ a:hover {
 .hidden {
     display: none;
 }
+/* Theme Variables */
+:root {
+    --primary: #0A192F;
+    --secondary: #00C2FF;
+    --accent: #00FF88;
+    --bg: #0D1117;
+    --text: #FFFFFF;
+    --card-bg: #161B22;
+    --border: #1F2937;
+}
+
+[data-theme="light"] {
+    --bg: #F0F4F8;
+    --text: #0A192F;
+    --card-bg: #FFFFFF;
+    --border: #D1D9E0;
+    --primary: #1A2A4A;
+}
+
+[data-theme="light"] .hero {
+    background: linear-gradient(145deg, #E8EDF3, #D5DEE8);
+}
+
+[data-theme="light"] .navbar {
+    border-bottom-color: #D1D9E0;
+}
+
+[data-theme="light"] .card {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.theme-toggle {
+    cursor: pointer;
+    font-size: 1.1rem;
+}
