@@ -3,19 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Nexus Report · Cyber Intelligence · MK Global Nexus</title>
-    <meta name="description" content="The Nexus Report - A Digital Intelligence & Research Initiative of MK Global Nexus. Founded by Manoj Meena.">
-    <meta property="og:title" content="The Nexus Report">
-    <meta property="og:description" content="Cyber Intelligence · Digital Investigation · OSINT Research">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="The Nexus Report">
-    <meta name="twitter:description" content="A Digital Intelligence & Research Initiative of MK Global Nexus.">
-    
+    <title>The Nexus Report · Real-Time Cyber Intelligence</title>
+    <meta name="description" content="Real-time cyber attack map, threat intelligence, and OSINT platform.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -26,23 +21,20 @@
         <div class="preloader-sub">A Digital Intelligence & Research Initiative of MK Global Nexus</div>
     </div>
 
-    <!-- ====== PARTICLE BACKGROUND ====== -->
-    <canvas id="particleCanvas"></canvas>
-
     <!-- ====== TOP STATUS BAR ====== -->
     <div class="status-bar">
         <div class="container">
             <div class="status-content">
                 <div class="status-left">
-                    <span class="status-dot"></span>
-                    <span class="status-text">SYSTEM: <span id="sysStatus">OPERATIONAL</span></span>
+                    <span class="status-dot" id="statusDot"></span>
+                    <span class="status-text">STATUS: <span id="sysStatus">INITIALIZING</span></span>
                     <span class="status-divider">|</span>
                     <span class="status-text">UPTIME: <span id="uptime">00:00:00</span></span>
                 </div>
                 <div class="status-right">
-                    <span class="status-text"><i class="fas fa-shield-alt"></i> THREAT LEVEL: <span id="threatLevel">LOW</span></span>
+                    <span class="status-text"><i class="fas fa-shield-alt"></i> THREAT: <span id="threatLevel">SCANNING</span></span>
                     <span class="status-divider">|</span>
-                    <span class="status-text"><i class="fas fa-users"></i> ACTIVE: <span id="activeUsers">1,247</span></span>
+                    <span class="status-text"><i class="fas fa-bolt"></i> ATTACKS: <span id="attackCount">0</span></span>
                     <span class="status-divider">|</span>
                     <span class="status-text" id="clockTime">--:--:--</span>
                     <span class="status-divider">|</span>
@@ -61,14 +53,14 @@
             </div>
             <div class="nav-right">
                 <ul class="nav-links" id="mainNav">
-                    <li><a href="index.html" class="active"><i class="fas fa-home"></i> <span>HOME</span></a></li>
-                    <li><a href="news.html"><i class="fas fa-newspaper"></i> <span>NEWS</span></a></li>
-                    <li><a href="cyber-alerts.html"><i class="fas fa-exclamation-triangle"></i> <span>ALERTS</span></a></li>
-                    <li><a href="investigations.html"><i class="fas fa-search"></i> <span>INVESTIGATIONS</span></a></li>
-                    <li><a href="fact-check.html"><i class="fas fa-check-circle"></i> <span>FACT CHECK</span></a></li>
-                    <li><a href="osint-lab.html"><i class="fas fa-microscope"></i> <span>OSINT LAB</span></a></li>
-                    <li><a href="about.html"><i class="fas fa-info-circle"></i> <span>ABOUT</span></a></li>
-                    <li><a href="contact.html"><i class="fas fa-envelope"></i> <span>CONTACT</span></a></li>
+                    <li><a href="index.html" class="active"><i class="fas fa-home"></i> HOME</a></li>
+                    <li><a href="news.html"><i class="fas fa-newspaper"></i> NEWS</a></li>
+                    <li><a href="cyber-alerts.html"><i class="fas fa-exclamation-triangle"></i> ALERTS</a></li>
+                    <li><a href="investigations.html"><i class="fas fa-search"></i> INVESTIGATIONS</a></li>
+                    <li><a href="fact-check.html"><i class="fas fa-check-circle"></i> FACT CHECK</a></li>
+                    <li><a href="osint-lab.html"><i class="fas fa-microscope"></i> OSINT LAB</a></li>
+                    <li><a href="about.html"><i class="fas fa-info-circle"></i> ABOUT</a></li>
+                    <li><a href="contact.html"><i class="fas fa-envelope"></i> CONTACT</a></li>
                 </ul>
                 <button class="theme-toggle" id="themeToggle">
                     <i class="fas fa-moon"></i>
@@ -86,32 +78,26 @@
             <div class="hero-content">
                 <div class="hero-badge">
                     <span class="badge-pulse"></span>
-                    <span>THE NEXUS REPORT · LIVE INTELLIGENCE</span>
+                    <span>REAL-TIME CYBER INTELLIGENCE</span>
                 </div>
-                <h1 class="hero-title">Digital Intelligence & <br><span class="highlight-text">Cyber Awareness</span></h1>
-                <p class="hero-desc">A professional digital intelligence and cyber security awareness platform. Uncover scams, verify facts, and explore OSINT research.</p>
-                <div class="hero-actions">
-                    <a href="news.html" class="btn btn-primary">
-                        <span>EXPLORE REPORTS</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
-                    <a href="about.html" class="btn btn-outline">
-                        <span>ABOUT US</span>
-                        <i class="fas fa-info-circle"></i>
-                    </a>
-                </div>
+                <h1 class="hero-title">Global Cyber <br><span class="highlight-text">Threat Map</span></h1>
+                <p class="hero-desc">Live attacks · Malware IOCs · Botnet C2 · Vulnerabilities · Real-time intelligence from 5+ sources</p>
                 <div class="hero-stats">
                     <div class="stat-item">
-                        <span class="stat-number" data-count="1247">0</span>
-                        <span class="stat-label">ARTICLES PUBLISHED</span>
+                        <span class="stat-number" id="liveAttacks">0</span>
+                        <span class="stat-label">LIVE ATTACKS</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-number" data-count="89">0</span>
-                        <span class="stat-label">INVESTIGATIONS</span>
+                        <span class="stat-number" id="totalIOCs">0</span>
+                        <span class="stat-label">IOCs DETECTED</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-number" data-count="156">0</span>
-                        <span class="stat-label">SCAM ALERTS</span>
+                        <span class="stat-number" id="activeC2">0</span>
+                        <span class="stat-label">ACTIVE C2 SERVERS</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="cveCount">0</span>
+                        <span class="stat-label">CVEs TRACKED</span>
                     </div>
                 </div>
             </div>
@@ -120,51 +106,37 @@
                     <span class="terminal-dot red"></span>
                     <span class="terminal-dot yellow"></span>
                     <span class="terminal-dot green"></span>
-                    <span class="terminal-title">NEXUS INTELLIGENCE TERMINAL</span>
+                    <span class="terminal-title">REAL-TIME THREAT FEED</span>
                 </div>
                 <div class="terminal-body" id="terminalOutput">
-                    <div class="terminal-line">> INITIALIZING INTELLIGENCE SYSTEM...</div>
-                    <div class="terminal-line">> CONNECTING TO SECURE NETWORK...</div>
-                    <div class="terminal-line">> ESTABLISHING ENCRYPTED CHANNEL...</div>
-                    <div class="terminal-line">> <span class="terminal-success">CONNECTION ESTABLISHED ✓</span></div>
-                    <div class="terminal-line">> <span class="terminal-success">MK GLOBAL NEXUS ACTIVE ✓</span></div>
+                    <div class="terminal-line">> INITIALIZING THREAT INTELLIGENCE...</div>
+                    <div class="terminal-line">> CONNECTING TO CHECK POINT API...</div>
+                    <div class="terminal-line">> FETCHING THREATFOX IOCS...</div>
+                    <div class="terminal-line">> <span class="terminal-success">LIVE DATA STREAM ACTIVE ✓</span></div>
                     <div class="terminal-line">> <span class="terminal-cursor">_</span></div>
                 </div>
             </div>
         </section>
 
-        <!-- ====== CYBER ATTACK GLOBE ====== -->
-        <section class="attack-globe-section">
+        <!-- ====== REAL-TIME ATTACK MAP ====== -->
+        <section class="attack-map-section">
             <div class="section-header">
                 <h2><i class="fas fa-globe-americas" style="color: #ff3333;"></i> REAL-TIME CYBER ATTACK MAP</h2>
                 <span class="live-indicator"><span class="pulse-dot red"></span> LIVE</span>
             </div>
-            <div class="globe-container">
-                <div id="globe-container" style="width:100%; height:550px; border-radius:var(--radius); border:1px solid var(--border); overflow:hidden; position:relative; background:var(--bg);">
-                    <div id="globe-status" style="position:absolute; bottom:20px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.85); padding:8px 24px; border-radius:20px; border:1px solid var(--border); font-family:var(--font-mono); font-size:0.7rem; color:var(--text); z-index:10; backdrop-filter:blur(10px);">
-                        <span id="attackCounter">0</span> ACTIVE ATTACKS · <span id="attackLocation">SCANNING...</span>
-                    </div>
-                    <div id="globe-loading" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:var(--secondary); font-family:var(--font-mono); font-size:0.9rem; z-index:5;">
-                        <i class="fas fa-spinner fa-spin"></i> INITIALIZING GLOBE...
-                    </div>
+            <div class="map-container">
+                <div id="attackMap" style="width:100%; height:600px; border-radius:var(--radius); border:1px solid var(--border); overflow:hidden; background:var(--bg);"></div>
+                <div class="map-legend">
+                    <span><span class="legend-dot critical"></span> Critical</span>
+                    <span><span class="legend-dot high"></span> High</span>
+                    <span><span class="legend-dot medium"></span> Medium</span>
+                    <span><span class="legend-dot low"></span> Low</span>
+                    <span><span class="legend-dot c2"></span> C2 Server</span>
                 </div>
-            </div>
-            <div class="attack-stats">
-                <div class="stat-card">
-                    <span class="stat-number" id="totalAttacks">0</span>
-                    <span class="stat-label">TOTAL ATTACKS</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number" id="activeAttacks">0</span>
-                    <span class="stat-label">ACTIVE ATTACKS</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number" id="attackTypes">0</span>
-                    <span class="stat-label">ATTACK TYPES</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number" id="attackerCountries">0</span>
-                    <span class="stat-label">COUNTRIES</span>
+                <div class="map-stats">
+                    <span id="mapAttackCount">0 attacks</span>
+                    <span id="mapSourceCount">0 sources</span>
+                    <span id="mapLastUpdate">Updating...</span>
                 </div>
             </div>
         </section>
@@ -177,137 +149,61 @@
             </div>
             <div class="dashboard-grid">
                 <div class="dashboard-card">
-                    <div class="card-icon"><i class="fas fa-globe"></i></div>
-                    <div class="card-info">
-                        <span class="card-label">GLOBAL THREAT</span>
-                        <span class="card-value threat-level" id="globalThreat">ELEVATED</span>
-                        <div class="threat-bar"><div class="threat-fill" style="width:65%"></div></div>
-                    </div>
-                </div>
-                <div class="dashboard-card">
                     <div class="card-icon"><i class="fas fa-bug"></i></div>
                     <div class="card-info">
-                        <span class="card-label">MALWARE CAMPAIGNS</span>
-                        <span class="card-value" id="activeMalware">12</span>
-                        <span class="card-change">↑ 3 from yesterday</span>
+                        <span class="card-label">THREATFOX IOCs</span>
+                        <span class="card-value" id="threatfoxCount">0</span>
+                        <span class="card-change">Malware indicators</span>
                     </div>
                 </div>
                 <div class="dashboard-card">
-                    <div class="card-icon"><i class="fas fa-user-secret"></i></div>
+                    <div class="card-icon"><i class="fas fa-server"></i></div>
                     <div class="card-info">
-                        <span class="card-label">DARK WEB LISTINGS</span>
-                        <span class="card-value" id="darkWebListings">2,847</span>
-                        <span class="card-change">↑ 12% this week</span>
+                        <span class="card-label">C2 SERVERS</span>
+                        <span class="card-value" id="feodoCount">0</span>
+                        <span class="card-change">Active botnet C2</span>
                     </div>
                 </div>
                 <div class="dashboard-card">
-                    <div class="card-icon"><i class="fas fa-shield-halved"></i></div>
+                    <div class="card-icon"><i class="fas fa-exclamation-circle"></i></div>
                     <div class="card-info">
-                        <span class="card-label">SECURITY SCORE</span>
-                        <span class="card-value" id="securityScore">98.7%</span>
-                        <span class="card-change">✅ 99% uptime</span>
+                        <span class="card-label">CVEs TRACKED</span>
+                        <span class="card-value" id="nvdCount">0</span>
+                        <span class="card-change">Latest vulnerabilities</span>
+                    </div>
+                </div>
+                <div class="dashboard-card">
+                    <div class="card-icon"><i class="fas fa-skull"></i></div>
+                    <div class="card-info">
+                        <span class="card-label">CISA KEV</span>
+                        <span class="card-value" id="cisaCount">0</span>
+                        <span class="card-change">Exploited vulnerabilities</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ====== OSINT TOOLS ====== -->
-        <section class="tools">
+        <!-- ====== LATEST IOCs ====== -->
+        <section class="ioc-section">
             <div class="section-header">
-                <h2><i class="fas fa-tools"></i> OSINT TOOLS SUITE</h2>
-                <span class="tools-count">6 TOOLS ACTIVE</span>
+                <h2><i class="fas fa-list-ul"></i> LATEST THREAT INTELLIGENCE</h2>
+                <span class="live-indicator"><span class="pulse-dot"></span> LIVE</span>
             </div>
-            <div class="tools-grid">
-                <div class="tool-card" onclick="openTool('ip')">
-                    <div class="tool-icon"><i class="fas fa-network-wired"></i></div>
-                    <h4>IP INTELLIGENCE</h4>
-                    <p>Reputation · Geolocation</p>
-                    <span class="tool-status active">ACTIVE</span>
-                </div>
-                <div class="tool-card" onclick="openTool('domain')">
-                    <div class="tool-icon"><i class="fas fa-globe"></i></div>
-                    <h4>DOMAIN ANALYSIS</h4>
-                    <p>WHOIS · DNS · Reputation</p>
-                    <span class="tool-status active">ACTIVE</span>
-                </div>
-                <div class="tool-card" onclick="openTool('email')">
-                    <div class="tool-icon"><i class="fas fa-envelope"></i></div>
-                    <h4>EMAIL INVESTIGATION</h4>
-                    <p>Validation · Breach Check</p>
-                    <span class="tool-status active">ACTIVE</span>
-                </div>
-                <div class="tool-card" onclick="openTool('breach')">
-                    <div class="tool-icon"><i class="fas fa-database"></i></div>
-                    <h4>BREACH DATABASE</h4>
-                    <p>Credential · Exposure</p>
-                    <span class="tool-status active">ACTIVE</span>
-                </div>
-                <div class="tool-card" onclick="openTool('hash')">
-                    <div class="tool-icon"><i class="fas fa-fingerprint"></i></div>
-                    <h4>HASH ANALYSIS</h4>
-                    <p>Integrity · Malware</p>
-                    <span class="tool-status active">ACTIVE</span>
-                </div>
-                <div class="tool-card" onclick="openTool('darkweb')">
-                    <div class="tool-icon"><i class="fas fa-eye-slash"></i></div>
-                    <h4>DARK WEB MONITOR</h4>
-                    <p>Threat Feed · Intel</p>
-                    <span class="tool-status beta">BETA</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- ====== DARK WEB FEED ====== -->
-        <section class="darkweb">
-            <div class="section-header">
-                <h2><i class="fas fa-eye-slash" style="color: #ff6b6b;"></i> DARK WEB INTELLIGENCE</h2>
-                <a href="#" class="view-all">VIEW ALL →</a>
-            </div>
-            <div class="darkweb-grid">
-                <div class="darkweb-item critical">
-                    <span class="dw-badge">CRITICAL</span>
-                    <span class="dw-title">10,000+ credentials leaked from major bank</span>
-                    <span class="dw-time">2h ago</span>
-                </div>
-                <div class="darkweb-item high">
-                    <span class="dw-badge">HIGH</span>
-                    <span class="dw-title">New ransomware "ShadowByte" targets healthcare</span>
-                    <span class="dw-time">5h ago</span>
-                </div>
-                <div class="darkweb-item medium">
-                    <span class="dw-badge">MEDIUM</span>
-                    <span class="dw-title">5M user emails up for sale on dark web</span>
-                    <span class="dw-time">12h ago</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- ====== LATEST NEWS ====== -->
-        <section class="news-feed">
-            <div class="section-header">
-                <h2><i class="fas fa-rss"></i> INTELLIGENCE FEED</h2>
-                <a href="news.html" class="view-all">VIEW ALL →</a>
-            </div>
-            <div class="card-grid" id="homeNews">
-                <div class="loading-spinner"><i class="fas fa-spinner"></i></div>
-            </div>
-        </section>
-
-        <!-- ====== CTA SECTION ====== -->
-        <section class="cta">
-            <div class="cta-content">
-                <h2>Stay Ahead of <span class="highlight-text">Threats</span></h2>
-                <p>A Digital Intelligence & Research Initiative of <strong>MK Global Nexus</strong></p>
-                <div class="cta-actions">
-                    <a href="contact.html" class="btn btn-primary">
-                        <span>GET STARTED</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
-                    <a href="about.html" class="btn btn-outline">
-                        <span>ABOUT US</span>
-                        <i class="fas fa-info-circle"></i>
-                    </a>
-                </div>
+            <div class="ioc-table-container">
+                <table class="ioc-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Indicator</th>
+                            <th>Malware</th>
+                            <th>Source</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody id="iocTableBody">
+                        <tr><td colspan="5" style="text-align:center; opacity:0.5; padding:20px;">Loading intelligence feed...</td></tr>
+                    </tbody>
+                </table>
             </div>
         </section>
     </div>
@@ -321,12 +217,6 @@
                     <p class="footer-tagline">Intelligence · Investigation · Verification</p>
                     <p class="footer-org">A Digital Intelligence & Research Initiative of <strong>MK Global Nexus</strong></p>
                     <p class="footer-founder">Founded by <strong>Manoj Meena</strong></p>
-                    <div class="footer-social">
-                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                        <a href="#" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
-                    </div>
                 </div>
                 <div class="footer-links">
                     <h4>PLATFORM</h4>
@@ -334,23 +224,20 @@
                         <li><a href="news.html">News</a></li>
                         <li><a href="cyber-alerts.html">Cyber Alerts</a></li>
                         <li><a href="investigations.html">Investigations</a></li>
-                        <li><a href="fact-check.html">Fact Check</a></li>
                         <li><a href="osint-lab.html">OSINT Lab</a></li>
                     </ul>
                 </div>
                 <div class="footer-links">
                     <h4>COMPANY</h4>
                     <ul>
-                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="about.html">About</a></li>
                         <li><a href="contact.html">Contact</a></li>
                         <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Report a Scam</a></li>
                     </ul>
                 </div>
                 <div class="footer-newsletter">
                     <h4>INTEL BRIEFINGS</h4>
-                    <p>Get the latest intelligence in your inbox</p>
+                    <p>Get real-time intelligence in your inbox</p>
                     <form id="footerNewsletter" class="newsletter-form">
                         <input type="email" placeholder="Enter your email" required>
                         <button type="submit"><i class="fas fa-paper-plane"></i></button>
@@ -365,24 +252,8 @@
         </div>
     </footer>
 
-    <!-- ====== BACK TO TOP ====== -->
-    <button id="backToTop"><i class="fas fa-arrow-up"></i></button>
-
-    <!-- ====== TOAST ====== -->
-    <div id="toastContainer"></div>
-
-    <!-- ====== TOOL MODAL ====== -->
-    <div id="toolModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="toolModalTitle">TOOL</h3>
-                <button class="modal-close" onclick="closeToolModal()">&times;</button>
-            </div>
-            <div class="modal-body" id="toolModalBody"></div>
-        </div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- ====== SCRIPTS ====== -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="assets/js/main.js"></script>
 </body>
 </html>
