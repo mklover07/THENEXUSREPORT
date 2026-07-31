@@ -17,11 +17,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Animate.css -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -35,7 +30,7 @@
 
     <!-- ====== TOP NOTIFICATION BAR ====== -->
     <div id="notificationBar" class="notification-bar">
-        <span><i class="fas fa-shield-alt"></i> Live Threat Monitor: <span id="threatStatus">All systems nominal</span></span>
+        <span><i class="fas fa-shield-alt"></i> Live Threat Monitor: <span id="threatStatus">🟢 All systems nominal</span></span>
         <button id="closeNotification"><i class="fas fa-times"></i></button>
     </div>
 
@@ -51,14 +46,14 @@
                     <i class="fas fa-clock"></i> <span id="clockTime">--:--:--</span>
                 </div>
                 <ul class="nav-links" id="mainNav">
-                    <li><a href="index.html" class="active" data-page="home"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="news.html" data-page="news"><i class="fas fa-newspaper"></i> News</a></li>
-                    <li><a href="cyber-alerts.html" data-page="alerts"><i class="fas fa-exclamation-triangle"></i> Alerts</a></li>
-                    <li><a href="investigations.html" data-page="investigations"><i class="fas fa-search"></i> Investigations</a></li>
-                    <li><a href="fact-check.html" data-page="factcheck"><i class="fas fa-check-circle"></i> Fact Check</a></li>
-                    <li><a href="osint-lab.html" data-page="osint"><i class="fas fa-microscope"></i> OSINT Lab</a></li>
-                    <li><a href="about.html" data-page="about"><i class="fas fa-info-circle"></i> About</a></li>
-                    <li><a href="contact.html" data-page="contact"><i class="fas fa-envelope"></i> Contact</a></li>
+                    <li><a href="index.html" class="active"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="news.html"><i class="fas fa-newspaper"></i> News</a></li>
+                    <li><a href="cyber-alerts.html"><i class="fas fa-exclamation-triangle"></i> Alerts</a></li>
+                    <li><a href="investigations.html"><i class="fas fa-search"></i> Investigations</a></li>
+                    <li><a href="fact-check.html"><i class="fas fa-check-circle"></i> Fact Check</a></li>
+                    <li><a href="osint-lab.html"><i class="fas fa-microscope"></i> OSINT Lab</a></li>
+                    <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                    <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
                 </ul>
                 <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme">
                     <i class="fas fa-moon"></i>
@@ -88,11 +83,11 @@
                     intelligence for a safer digital world.
                 </p>
                 <div class="hero-actions">
-                    <a href="news.html" class="btn btn-primary animate__animated animate__pulse animate__infinite">
+                    <a href="news.html" class="btn btn-primary">
                         <i class="fas fa-bolt"></i> Explore Latest Reports
                     </a>
-                    <a href="#featured" class="btn btn-outline">
-                        <i class="fas fa-arrow-down"></i> Learn More
+                    <a href="#threat-dashboard" class="btn btn-outline">
+                        <i class="fas fa-arrow-down"></i> View Dashboard
                     </a>
                 </div>
                 <div class="hero-stats">
@@ -107,6 +102,156 @@
                     <div class="stat-item">
                         <span class="stat-number" data-count="156">0</span>
                         <span class="stat-label">Scam Alerts</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="423">0</span>
+                        <span class="stat-label">Active Users</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== THREAT DASHBOARD ====== -->
+        <section id="threat-dashboard" class="dashboard-section glass">
+            <div class="section-header">
+                <h2><i class="fas fa-chart-line" style="color: var(--accent);"></i> Live Threat Dashboard</h2>
+                <span class="live-badge"><i class="fas fa-circle" style="color: #00ff00;"></i> LIVE</span>
+            </div>
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <div class="dashboard-icon"><i class="fas fa-globe"></i></div>
+                    <div class="dashboard-info">
+                        <span class="dashboard-label">Global Threat Level</span>
+                        <span class="dashboard-value threat-level" id="globalThreat">ELEVATED</span>
+                        <div class="threat-meter">
+                            <div class="threat-meter-fill" style="width: 65%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dashboard-card">
+                    <div class="dashboard-icon"><i class="fas fa-bug"></i></div>
+                    <div class="dashboard-info">
+                        <span class="dashboard-label">Active Malware Campaigns</span>
+                        <span class="dashboard-value" id="activeMalware">12</span>
+                        <span class="dashboard-change">↑ 3 from yesterday</span>
+                    </div>
+                </div>
+                <div class="dashboard-card">
+                    <div class="dashboard-icon"><i class="fas fa-user-secret"></i></div>
+                    <div class="dashboard-info">
+                        <span class="dashboard-label">Dark Web Listings</span>
+                        <span class="dashboard-value" id="darkWebListings">2,847</span>
+                        <span class="dashboard-change">↑ 12% this week</span>
+                    </div>
+                </div>
+                <div class="dashboard-card">
+                    <div class="dashboard-icon"><i class="fas fa-shield-halved"></i></div>
+                    <div class="dashboard-info">
+                        <span class="dashboard-label">Protected Systems</span>
+                        <span class="dashboard-value" id="protectedSystems">98.7%</span>
+                        <span class="dashboard-change">✅ 99% uptime</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== DARK WEB MONITOR ====== -->
+        <section class="dark-web-section glass">
+            <div class="section-header">
+                <h2><i class="fas fa-eye-slash" style="color: #ff6b6b;"></i> Dark Web Monitor</h2>
+                <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="dark-web-grid" id="darkWebGrid">
+                <div class="dark-web-item">
+                    <span class="dw-badge critical">CRITICAL</span>
+                    <span class="dw-title">10,000+ credentials leaked from major bank</span>
+                    <span class="dw-time">2 hours ago</span>
+                </div>
+                <div class="dark-web-item">
+                    <span class="dw-badge high">HIGH</span>
+                    <span class="dw-title">New ransomware group emerges: "ShadowByte"</span>
+                    <span class="dw-time">5 hours ago</span>
+                </div>
+                <div class="dark-web-item">
+                    <span class="dw-badge medium">MEDIUM</span>
+                    <span class="dw-title">Database of 5M emails up for sale</span>
+                    <span class="dw-time">12 hours ago</span>
+                </div>
+                <div class="dark-web-item">
+                    <span class="dw-badge low">LOW</span>
+                    <span class="dw-title">Phishing kits targeting crypto wallets</span>
+                    <span class="dw-time">1 day ago</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== OSINT TOOLS ====== -->
+        <section class="osint-tools-section glass">
+            <div class="section-header">
+                <h2><i class="fas fa-tools" style="color: var(--secondary);"></i> OSINT Tools</h2>
+            </div>
+            <div class="osint-tools-grid">
+                <div class="tool-card" onclick="openTool('ip')">
+                    <i class="fas fa-network-wired"></i>
+                    <h4>IP Lookup</h4>
+                    <p>Check IP reputation</p>
+                </div>
+                <div class="tool-card" onclick="openTool('domain')">
+                    <i class="fas fa-globe"></i>
+                    <h4>Domain Reputation</h4>
+                    <p>Check domain safety</p>
+                </div>
+                <div class="tool-card" onclick="openTool('email')">
+                    <i class="fas fa-envelope"></i>
+                    <h4>Email Validator</h4>
+                    <p>Verify email address</p>
+                </div>
+                <div class="tool-card" onclick="openTool('hash')">
+                    <i class="fas fa-fingerprint"></i>
+                    <h4>Hash Check</h4>
+                    <p>Check file integrity</p>
+                </div>
+                <div class="tool-card" onclick="openTool('ssl')">
+                    <i class="fas fa-lock"></i>
+                    <h4>SSL Checker</h4>
+                    <p>Check SSL certificate</p>
+                </div>
+                <div class="tool-card" onclick="openTool('breach')">
+                    <i class="fas fa-database"></i>
+                    <h4>Breach Check</h4>
+                    <p>Check if email breached</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== EXPERT OPINIONS ====== -->
+        <section class="expert-section glass">
+            <div class="section-header">
+                <h2><i class="fas fa-user-tie" style="color: var(--accent);"></i> Expert Opinions</h2>
+            </div>
+            <div class="expert-grid" id="expertGrid">
+                <div class="expert-card">
+                    <div class="expert-avatar">👨‍💻</div>
+                    <div class="expert-info">
+                        <h4>Dr. Sarah Chen</h4>
+                        <p class="expert-title">Cybersecurity Researcher</p>
+                        <p class="expert-quote">"AI-powered threats are evolving faster than our defenses. We need adaptive security measures."</p>
+                    </div>
+                </div>
+                <div class="expert-card">
+                    <div class="expert-avatar">👩‍🔬</div>
+                    <div class="expert-info">
+                        <h4>Prof. James Wilson</h4>
+                        <p class="expert-title">OSINT Specialist</p>
+                        <p class="expert-quote">"Open source intelligence is the future of threat detection. Public data holds the answers."</p>
+                    </div>
+                </div>
+                <div class="expert-card">
+                    <div class="expert-avatar">🕵️</div>
+                    <div class="expert-info">
+                        <h4>Marcus Rivera</h4>
+                        <p class="expert-title">Dark Web Analyst</p>
+                        <p class="expert-quote">"The dark web marketplace is the early warning system for tomorrow's cyber attacks."</p>
                     </div>
                 </div>
             </div>
@@ -128,6 +273,8 @@
                 <span class="tag">#ScamAlert</span>
                 <span class="tag">#DeepFake</span>
                 <span class="tag">#Malware</span>
+                <span class="tag">#ZeroDay</span>
+                <span class="tag">#DarkWeb</span>
             </div>
         </section>
 
@@ -156,7 +303,7 @@
             <section>
                 <div class="section-header">
                     <h2><i class="fas fa-check-circle" style="color: var(--accent);"></i> Fact Check</h2>
-                    <a href="fact-check.html" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+                    <a href="fact-check.html" class="view-all">View All <i class="fas fa-arrow-right"></i></div>
                 </div>
                 <div id="homeFactCheck">
                     <div class="loading-spinner"><i class="fas fa-spinner"></i></div>
@@ -172,6 +319,36 @@
             </div>
             <div class="card-grid" id="homeOsint">
                 <div class="loading-spinner"><i class="fas fa-spinner"></i></div>
+            </div>
+        </section>
+
+        <!-- ====== COMMUNITY REPORTS ====== -->
+        <section class="community-section glass">
+            <div class="section-header">
+                <h2><i class="fas fa-users" style="color: var(--secondary);"></i> Community Reports</h2>
+                <button class="btn btn-primary" onclick="openReportScam()">
+                    <i class="fas fa-flag"></i> Report a Scam
+                </button>
+            </div>
+            <div class="community-grid" id="communityGrid">
+                <div class="community-item">
+                    <span class="comm-badge new">NEW</span>
+                    <h4>Fake investment app "CryptoMax"</h4>
+                    <p>Scam targeting elderly investors</p>
+                    <span class="comm-time">3 hours ago • Reported by 12 users</span>
+                </div>
+                <div class="community-item">
+                    <span class="comm-badge investigating">INVESTIGATING</span>
+                    <h4>Phishing emails impersonating IRS</h4>
+                    <p>Tax season scam using fake refunds</p>
+                    <span class="comm-time">1 day ago • Reported by 45 users</span>
+                </div>
+                <div class="community-item">
+                    <span class="comm-badge resolved">RESOLVED</span>
+                    <h4>Fake job postings on LinkedIn</h4>
+                    <p>Scam removed after 24 hours</p>
+                    <span class="comm-time">3 days ago • Reported by 8 users</span>
+                </div>
             </div>
         </section>
 
@@ -224,7 +401,7 @@
                         <li><a href="contact.html">Contact</a></li>
                         <li><a href="#">Privacy Policy</a></li>
                         <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Report a Scam</a></li>
+                        <li><a href="#" onclick="openReportScam(); return false;">Report a Scam</a></li>
                     </ul>
                 </div>
                 <div class="footer-newsletter">
@@ -251,7 +428,19 @@
     <!-- ====== TOAST CONTAINER ====== -->
     <div id="toastContainer"></div>
 
-    <!-- ====== SCRIPTS ====== -->
+    <!-- ====== TOOL MODAL ====== -->
+    <div id="toolModal" class="modal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <h3 id="toolModalTitle">Tool</h3>
+                <button class="modal-close" onclick="closeToolModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="toolModalBody">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </div>
+
     <script src="assets/js/main.js"></script>
 </body>
 </html>
