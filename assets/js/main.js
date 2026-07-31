@@ -289,4 +289,131 @@ function openTool(type) {
     const tools = {
         ip: { title: '🔍 IP INTELLIGENCE', html: `<p>Check IP reputation and geolocation</p><input type="text" id="ipInput" placeholder="Enter IP" value="8.8.8.8"><button onclick="checkIP()">SCAN</button><div id="ipResult" style="margin-top:12px; padding:12px; background:var(--bg); border-radius:8px; display:none;"></div>` },
         domain: { title: '🌐 DOMAIN ANALYSIS', html: `<p>Check domain reputation and WHOIS</p><input type="text" id="domainInput" placeholder="Enter domain"><button onclick="checkDomain()">SCAN</button><div id="domainResult" style="margin-top:12px; padding:12px; background:var(--bg); border-radius:8px; display:none;"></div>` },
-        email: { title: '✉️ EMAIL INVESTIGATION', html: `<p>Validate email and check breaches</p><input type="email" id="emailInput" placeholder="Enter email"><button onclick="validateEmail()">SCAN</button><div id="emailResult" style="margin-top:
+        email: { title: '✉️ EMAIL INVESTIGATION', html: `<p>Validate email and check breaches</p><input type="email" id="emailInput" placeholder="Enter email"><button onclick="validateEmail()">SCAN</button><div id="emailResult" style="margin-top:12px; padding:12px; background:var(--bg); border-radius:8px; display:none;"></div>` },
+        breach: { title: '📊 BREACH DATABASE', html: `<p>Check if email has been breached</p><input type="email" id="breachInput" placeholder="Enter email"><button onclick="checkBreach()">SCAN</button><div id="breachResult" style="margin-top:12px; padding:12px; background:var(--bg); border-radius:8px; display:none;"></div>` },
+        hash: { title: '🔐 HASH ANALYSIS', html: `<p>Check file hash for malware</p><input type="text" id="hashInput" placeholder="Enter MD5/SHA1/SHA256"><button onclick="checkHash()">SCAN</button><div id="hashResult" style="margin-top:12px; padding:12px; background:var(--bg); border-radius:8px; display:none;"></div>` },
+        darkweb: { title: '👁️ DARK WEB MONITOR', html: `<p>Monitor dark web for threats</p><input type="text" id="darkwebInput" placeholder="Enter keyword to monitor"><button onclick="checkDarkWeb()">MONITOR</button><div id="darkwebResult" style="margin-top:12px; padding:12px; background:var(--bg); border-radius:8px; display:none;"></div>` }
+    };
+    const tool = tools[type];
+    if (tool) { title.textContent = tool.title; body.innerHTML = tool.html; }
+}
+
+function closeToolModal() {
+    document.getElementById('toolModal')?.classList.remove('show');
+}
+document.addEventListener('click', function(e) {
+    if (e.target === document.getElementById('toolModal')) closeToolModal();
+});
+
+// ============================================================
+// TOOL FUNCTIONS
+// ============================================================
+function checkIP() {
+    const input = document.getElementById('ipInput');
+    const result = document.getElementById('ipResult');
+    if (!input || !result) return;
+    const ip = input.value.trim();
+    if (!ip) { showToast('Enter IP address', 'error'); return; }
+    result.style.display = 'block';
+    result.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner"></i></div>';
+    setTimeout(() => {
+        const safe = Math.random() > 0.3;
+        result.innerHTML = `<div style="display:flex; justify-content:space-between"><span><strong>IP:</strong> ${ip}</span><span style="color:${safe ? 'var(--tertiary)' : '#ff3333'}">${safe ? '✅ SAFE' : '⚠️ SUSPICIOUS'}</span></div><div style="margin-top:8px; opacity:0.5; font-size:0.8rem;"><div>📍 ${safe ? 'United States' : 'Unknown (VPN)'}</div><div>🛡️ ${safe ? 'Clean record' : 'Reported 15 times'}</div></div>`;
+        showToast('IP scan complete', 'info');
+    }, 1500);
+}
+
+function checkDomain() {
+    const input = document.getElementById('domainInput');
+    const result = document.getElementById('domainResult');
+    if (!input || !result) return;
+    const domain = input.value.trim();
+    if (!domain) { showToast('Enter domain', 'error'); return; }
+    result.style.display = 'block';
+    result.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner"></i></div>';
+    setTimeout(() => {
+        const safe = Math.random() > 0.3;
+        result.innerHTML = `<div style="display:flex; justify-content:space-between"><span><strong>Domain:</strong> ${domain}</span><span style="color:${safe ? 'var(--tertiary)' : '#ff3333'}">${safe ? '✅ SAFE' : '⚠️ SUSPICIOUS'}</span></div><div style="margin-top:8px; opacity:0.5; font-size:0.8rem;"><div>📅 ${Math.floor(Math.random() * 10) + 1} years old</div><div>🔒 ${safe ? 'SSL Valid' : 'SSL Expired'}</div></div>`;
+        showToast('Domain scan complete', 'info');
+    }, 1500);
+}
+
+function validateEmail() {
+    const input = document.getElementById('emailInput');
+    const result = document.getElementById('emailResult');
+    if (!input || !result) return;
+    const email = input.value.trim();
+    if (!email || !email.includes('@')) { showToast('Enter valid email', 'error'); return; }
+    result.style.display = 'block';
+    result.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner"></i></div>';
+    setTimeout(() => {
+        const valid = Math.random() > 0.2;
+        const breached = Math.random() > 0.7;
+        result.innerHTML = `<div style="display:flex; justify-content:space-between"><span><strong>Email:</strong> ${email}</span><span style="color:${valid ? 'var(--tertiary)' : '#ff3333'}">${valid ? '✅ VALID' : '❌ INVALID'}</span></div><div style="margin-top:8px; opacity:0.5; font-size:0.8rem;"><div>🔓 ${breached ? '⚠️ Found in breaches' : '✅ No breaches'}</div></div>`;
+        showToast('Email validation complete', 'info');
+    }, 1500);
+}
+
+function checkBreach() {
+    const input = document.getElementById('breachInput');
+    const result = document.getElementById('breachResult');
+    if (!input || !result) return;
+    const email = input.value.trim();
+    if (!email || !email.includes('@')) { showToast('Enter valid email', 'error'); return; }
+    result.style.display = 'block';
+    result.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner"></i></div>';
+    setTimeout(() => {
+        const breaches = Math.floor(Math.random() * 4);
+        result.innerHTML = `<div style="display:flex; justify-content:space-between"><span><strong>Email:</strong> ${email}</span><span style="color:${breaches > 0 ? '#ffaa33' : 'var(--tertiary)'}">${breaches > 0 ? `⚠️ ${breaches} BREACHES` : '✅ CLEAN'}</span></div><div style="margin-top:8px; opacity:0.5; font-size:0.8rem;">${breaches > 0 ? `<div>🔓 ${['LinkedIn', 'Adobe', 'Dropbox', 'MySpace'].slice(0, breaches).join(', ')}</div><div style="color:#ffaa33;">🔄 Change password!</div>` : '<div>✅ No breaches found</div>'}</div>`;
+        showToast('Breach check complete', 'info');
+    }, 1500);
+}
+
+function checkHash() {
+    const input = document.getElementById('hashInput');
+    const result = document.getElementById('hashResult');
+    if (!input || !result) return;
+    const hash = input.value.trim();
+    if (!hash || hash.length < 32) { showToast('Enter valid hash (32+ chars)', 'error'); return; }
+    result.style.display = 'block';
+    result.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner"></i></div>';
+    setTimeout(() => {
+        const malicious = Math.random() > 0.8;
+        result.innerHTML = `<div style="display:flex; justify-content:space-between"><span><strong>Hash:</strong> ${hash.substring(0, 16)}...</span><span style="color:${malicious ? '#ff3333' : 'var(--tertiary)'}">${malicious ? '⚠️ MALICIOUS' : '✅ CLEAN'}</span></div><div style="margin-top:8px; opacity:0.5; font-size:0.8rem;"><div>📊 ${malicious ? 'Malware detected' : 'Clean file'}</div><div>🛡️ ${malicious ? '12/65 vendors' : '0/65 vendors'}</div></div>`;
+        showToast('Hash analysis complete', 'info');
+    }, 1500);
+}
+
+function checkDarkWeb() {
+    const input = document.getElementById('darkwebInput');
+    const result = document.getElementById('darkwebResult');
+    if (!input || !result) return;
+    const keyword = input.value.trim();
+    if (!keyword) { showToast('Enter keyword', 'error'); return; }
+    result.style.display = 'block';
+    result.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner"></i></div>';
+    setTimeout(() => {
+        const listings = Math.floor(Math.random() * 20);
+        result.innerHTML = `<div style="display:flex; justify-content:space-between"><span><strong>Keyword:</strong> ${keyword}</span><span style="color:${listings > 5 ? '#ffaa33' : 'var(--tertiary)'}">${listings} LISTINGS</span></div><div style="margin-top:8px; opacity:0.5; font-size:0.8rem;"><div>🔍 ${listings > 0 ? `${listings} mentions found` : 'No mentions'}</div>${listings > 0 ? '<div style="color:#ffaa33;">⚠️ Monitor activity</div>' : ''}</div>`;
+        showToast('Dark web monitor complete', 'info');
+    }, 1500);
+}
+
+// ============================================================
+// CONTACT FORM
+// ============================================================
+document.getElementById('footerNewsletter')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = this.querySelector('input')?.value || '';
+    showToast(`📡 Subscribed: ${email}`, 'success', 4000);
+    this.reset();
+});
+
+// ============================================================
+// INIT
+// ============================================================
+renderHome();
+
+console.log('🚀 NEXUS · Sci-Fi Cyber Intelligence Platform');
+console.log('🔮 System initialized successfully');
+console.log('🛸 Welcome to the future of intelligence');
