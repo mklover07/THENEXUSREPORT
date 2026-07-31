@@ -1117,3 +1117,114 @@ body {
     .cta { padding: 30px 20px; }
     .cta-content h2 { font-size: 1.4rem; }
 }
+/* ---------- ATTACK GLOBE SECTION ---------- */
+.attack-globe-section {
+    padding: 30px;
+    border-radius: var(--radius);
+    margin-bottom: 30px;
+    border: 1px solid var(--border);
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+}
+
+.globe-container {
+    width: 100%;
+    height: 600px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    position: relative;
+    background: var(--bg);
+    border: 1px solid var(--border);
+}
+
+/* Status bar on globe */
+#globe-status {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    padding: 8px 24px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text);
+    z-index: 10;
+    backdrop-filter: blur(10px);
+    letter-spacing: 1px;
+}
+
+#globe-status span {
+    color: var(--secondary);
+}
+
+.pulse-dot.red {
+    background: #ff3333;
+    animation: pulse-dot-red 1s ease-in-out infinite;
+}
+
+@keyframes pulse-dot-red {
+    0%, 100% { opacity: 1; box-shadow: 0 0 15px #ff3333; }
+    50% { opacity: 0.3; box-shadow: 0 0 5px #ff3333; }
+}
+
+/* Attack Stats */
+.attack-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.attack-stats .stat-card {
+    background: var(--card-bg);
+    padding: 16px;
+    border-radius: var(--radius);
+    text-align: center;
+    border: 1px solid var(--border);
+    transition: all 0.3s;
+}
+
+.attack-stats .stat-card:hover {
+    border-color: var(--secondary);
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.05);
+}
+
+.attack-stats .stat-number {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--secondary);
+    font-family: var(--font-mono);
+    display: block;
+}
+
+.attack-stats .stat-label {
+    font-size: 0.7rem;
+    opacity: 0.4;
+    font-family: var(--font-mono);
+    letter-spacing: 1px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .globe-container {
+        height: 400px;
+    }
+    .attack-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .globe-container {
+        height: 300px;
+    }
+    #globe-status {
+        font-size: 0.55rem;
+        padding: 4px 12px;
+    }
+    .attack-stats .stat-number {
+        font-size: 1.2rem;
+    }
+}
