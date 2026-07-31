@@ -3,66 +3,288 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About — The Nexus Report</title>
-    <meta name="description" content="About The Nexus Report — a professional digital intelligence and cyber security awareness platform.">
+    <title>About · The Nexus Report · MK Global Nexus</title>
+    <meta name="description" content="About The Nexus Report - Founded by Manoj Meena. A Digital Intelligence & Research Initiative of MK Global Nexus.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <header class="navbar">
-            <div class="logo">
-                <h1>THE <span>NEXUS</span> REPORT</h1>
-                <div class="tagline">Intelligence • Investigation • Verification</div>
-            </div>
-            <nav class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="news.html">News</a>
-                <a href="cyber-alerts.html">Cyber Alerts</a>
-                <a href="investigations.html">Investigations</a>
-                <a href="fact-check.html">Fact Check</a>
-                <a href="osint-lab.html">OSINT Lab</a>
-                <a href="about.html" class="active">About</a>
-                <a href="contact.html">Contact</a>
-            </nav>
-        </header>
-
-        <div class="page-header">
-            <h2>About The Nexus Report</h2>
-        </div>
-
-        <div style="max-width:800px; background:var(--card-bg); padding:30px; border-radius:var(--radius); border:1px solid var(--border); margin-bottom:30px;">
-            <p style="font-size:1.1rem; margin-bottom:16px;"><strong>The Nexus Report</strong> is a professional digital intelligence, cyber security awareness, investigative research, OSINT analysis, technology news, scam alert, and fact-checking platform.</p>
-            <p style="margin-bottom:12px;">This is <strong>not</strong> a gossip, entertainment, or clickbait news website. Our primary focus:</p>
-            <ul style="list-style:none; display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:16px 0;">
-                <li><i class="fas fa-check-circle" style="color:var(--accent);"></i> Cyber Crime Awareness</li>
-                <li><i class="fas fa-check-circle" style="color:var(--accent);"></i> Scam & Fraud Alerts</li>
-                <li><i class="fas fa-check-circle" style="color:var(--accent);"></i> Digital Investigation Reports</li>
-                <li><i class="fas fa-check-circle" style="color:var(--accent);"></i> OSINT Research</li>
-                <li><i class="fas fa-check-circle" style="color:var(--accent);"></i> Fact Checking</li>
-                <li><i class="fas fa-check-circle" style="color:var(--accent);"></i> Cyber Security News</li>
-                <li><i class="fas fa-check-circle" style="color:var(--accent);"></i> Technology Intelligence</li>
-                <li><i class="fas fa-check-circle" style="color:var(--accent);"></i> Public Awareness Content</li>
-            </ul>
-            <p style="opacity:0.7; font-size:0.95rem; border-top:1px solid var(--border); padding-top:16px;">
-                <i class="fas fa-shield-alt" style="color:var(--secondary);"></i> A Digital Intelligence & Research Initiative of MK Global Nexus.
-            </p>
-        </div>
-
-        <footer class="footer">
-            <div>
-                <div class="brand">THE <span>NEXUS</span> REPORT</div>
-                <small>A Digital Intelligence & Research Initiative of MK Global Nexus</small>
-                <div style="margin-top:6px; font-size:0.8rem; opacity:0.4;">© 2026 · All rights reserved.</div>
-            </div>
-            <div class="social">
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                <a href="#"><i class="fab fa-github"></i></a>
-                <a href="#"><i class="fab fa-youtube"></i></a>
-            </div>
-        </footer>
+    <!-- ====== PRELOADER ====== -->
+    <div id="preloader">
+        <div class="preloader-ring"></div>
+        <div class="preloader-text">THE NEXUS REPORT</div>
+        <div class="preloader-sub">A Digital Intelligence & Research Initiative of MK Global Nexus</div>
     </div>
+
+    <!-- ====== TOP STATUS BAR ====== -->
+    <div class="status-bar">
+        <div class="container">
+            <div class="status-content">
+                <div class="status-left">
+                    <span class="status-dot"></span>
+                    <span class="status-text">SYSTEM: <span id="sysStatus">OPERATIONAL</span></span>
+                    <span class="status-divider">|</span>
+                    <span class="status-text">UPTIME: <span id="uptime">00:00:00</span></span>
+                </div>
+                <div class="status-right">
+                    <span class="status-text"><i class="fas fa-shield-alt"></i> THREAT LEVEL: <span id="threatLevel">LOW</span></span>
+                    <span class="status-divider">|</span>
+                    <span class="status-text" id="clockTime">--:--:--</span>
+                    <span class="status-divider">|</span>
+                    <span class="status-text"><i class="fas fa-shield-halved"></i> MK GLOBAL NEXUS</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== NAVIGATION ====== -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <h1><i class="fas fa-shield-halved" style="color: var(--secondary);"></i> THE <span>NEXUS</span> REPORT</h1>
+                <span class="logo-sub">Intelligence · Investigation · Verification</span>
+            </div>
+            <div class="nav-right">
+                <ul class="nav-links" id="mainNav">
+                    <li><a href="index.html"><i class="fas fa-home"></i> <span>HOME</span></a></li>
+                    <li><a href="news.html"><i class="fas fa-newspaper"></i> <span>NEWS</span></a></li>
+                    <li><a href="cyber-alerts.html"><i class="fas fa-exclamation-triangle"></i> <span>ALERTS</span></a></li>
+                    <li><a href="investigations.html"><i class="fas fa-search"></i> <span>INVESTIGATIONS</span></a></li>
+                    <li><a href="fact-check.html"><i class="fas fa-check-circle"></i> <span>FACT CHECK</span></a></li>
+                    <li><a href="osint-lab.html"><i class="fas fa-microscope"></i> <span>OSINT LAB</span></a></li>
+                    <li><a href="about.html" class="active"><i class="fas fa-info-circle"></i> <span>ABOUT</span></a></li>
+                    <li><a href="contact.html"><i class="fas fa-envelope"></i> <span>CONTACT</span></a></li>
+                </ul>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-container">
+        <!-- ====== ABOUT HERO ====== -->
+        <section class="about-hero">
+            <div class="about-hero-content">
+                <h1>About <span class="highlight-text">The Nexus Report</span></h1>
+                <p>A Digital Intelligence & Research Initiative of <strong>MK Global Nexus</strong></p>
+            </div>
+        </section>
+
+        <!-- ====== FOUNDER SECTION ====== -->
+        <section class="founder-section">
+            <div class="founder-grid">
+                <div class="founder-image">
+                    <div class="founder-photo">
+                        <img src="assets/images/founder.jpg" alt="Manoj Meena - Founder & CEO of MK Global Nexus" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22300%22%3E%3Crect fill=%22%23161B22%22 width=%22300%22 height=%22300%22/%3E%3Ctext x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%2300C2FF%22 font-size=%2248%22 font-family=%22Arial%22%3E👤%3C/text%3E%3C/svg%3E'">
+                    </div>
+                    <div class="founder-name">
+                        <h2>Manoj Meena</h2>
+                        <p class="founder-title">Founder & CEO · MK Global Nexus</p>
+                    </div>
+                </div>
+                <div class="founder-info">
+                    <div class="founder-bio">
+                        <h3><i class="fas fa-user-tie"></i> About the Founder</h3>
+                        <p><strong>Manoj Meena</strong> is the Founder & CEO of <strong>MK Global Nexus</strong>. His work focuses on cyber crime awareness, digital fraud analysis, investigative research, OSINT methodologies, technology intelligence, and public awareness initiatives.</p>
+                        <p>The mission is to promote responsible use of technology, cyber security awareness, evidence-based investigation, and digital literacy.</p>
+                    </div>
+                    <div class="founder-values">
+                        <h3><i class="fas fa-star"></i> Core Values</h3>
+                        <div class="values-grid">
+                            <span class="value-tag">Truth First</span>
+                            <span class="value-tag">Evidence-Based</span>
+                            <span class="value-tag">Integrity</span>
+                            <span class="value-tag">Professionalism</span>
+                            <span class="value-tag">Public Awareness</span>
+                            <span class="value-tag">Cyber Security Education</span>
+                            <span class="value-tag">Research-Oriented</span>
+                            <span class="value-tag">Responsible Investigation</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== PROFESSIONAL AREAS ====== -->
+        <section class="professional-areas">
+            <div class="section-header">
+                <h2><i class="fas fa-briefcase"></i> Professional Areas</h2>
+            </div>
+            <div class="areas-grid">
+                <div class="area-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h4>Cyber Crime Analysis</h4>
+                    <p>Investigating cyber threats and digital crimes</p>
+                </div>
+                <div class="area-card">
+                    <i class="fas fa-search"></i>
+                    <h4>Digital Fraud Investigation</h4>
+                    <p>Uncovering financial and digital fraud</p>
+                </div>
+                <div class="area-card">
+                    <i class="fas fa-microscope"></i>
+                    <h4>OSINT Research</h4>
+                    <p>Open source intelligence methodologies</p>
+                </div>
+                <div class="area-card">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h4>Cyber Security Awareness</h4>
+                    <p>Educating about digital safety</p>
+                </div>
+                <div class="area-card">
+                    <i class="fas fa-newspaper"></i>
+                    <h4>Investigative Journalism</h4>
+                    <p>Evidence-based reporting and analysis</p>
+                </div>
+                <div class="area-card">
+                    <i class="fas fa-brain"></i>
+                    <h4>Digital Intelligence Research</h4>
+                    <p>Advanced intelligence gathering</p>
+                </div>
+                <div class="area-card">
+                    <i class="fas fa-robot"></i>
+                    <h4>Technology Analysis</h4>
+                    <p>Evaluating emerging technologies</p>
+                </div>
+                <div class="area-card">
+                    <i class="fas fa-heartbeat"></i>
+                    <h4>Healthcare Professional</h4>
+                    <p>Healthcare technology and security</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== MK GLOBAL NEXUS ====== -->
+        <section class="organization-section">
+            <div class="org-content">
+                <h2><i class="fas fa-building"></i> MK Global Nexus</h2>
+                <p>A professional organization focused on:</p>
+                <div class="org-grid">
+                    <span class="org-tag">Cyber Security</span>
+                    <span class="org-tag">Digital Intelligence</span>
+                    <span class="org-tag">Research</span>
+                    <span class="org-tag">Technology</span>
+                    <span class="org-tag">Investigation</span>
+                    <span class="org-tag">Awareness</span>
+                    <span class="org-tag">Innovation</span>
+                    <span class="org-tag">Public Interest Projects</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== BRAND IDENTITY ====== -->
+        <section class="brand-identity">
+            <div class="section-header">
+                <h2><i class="fas fa-flag"></i> Brand Identity</h2>
+            </div>
+            <div class="brand-grid">
+                <div class="brand-card">
+                    <h4><i class="fas fa-user-tie"></i> Brand Personality</h4>
+                    <ul>
+                        <li>Professional</li>
+                        <li>Trustworthy</li>
+                        <li>Analytical</li>
+                        <li>Intelligence Driven</li>
+                        <li>Research Focused</li>
+                        <li>Modern</li>
+                        <li>Technology Oriented</li>
+                        <li>Investigation Focused</li>
+                    </ul>
+                </div>
+                <div class="brand-card">
+                    <h4><i class="fas fa-eye"></i> Visual Style</h4>
+                    <ul>
+                        <li>Professional & Clean</li>
+                        <li>Corporate</li>
+                        <li>Cyber Intelligence Theme</li>
+                        <li>Credibility Focused</li>
+                        <li>Trust & Research Oriented</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== CTA ====== -->
+        <section class="cta">
+            <div class="cta-content">
+                <h2>Connect with <span class="highlight-text">MK Global Nexus</span></h2>
+                <p>For research collaborations, investigations, or intelligence inquiries</p>
+                <div class="cta-actions">
+                    <a href="contact.html" class="btn btn-primary">
+                        <span>GET IN TOUCH</span>
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    <a href="index.html" class="btn btn-outline">
+                        <span>EXPLORE NEXUS</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ====== FOOTER ====== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h2><i class="fas fa-shield-halved" style="color: var(--secondary);"></i> THE <span>NEXUS</span> REPORT</h2>
+                    <p class="footer-tagline">Intelligence · Investigation · Verification</p>
+                    <p class="footer-org">A Digital Intelligence & Research Initiative of <strong>MK Global Nexus</strong></p>
+                    <p class="footer-founder">Founded by <strong>Manoj Meena</strong></p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>PLATFORM</h4>
+                    <ul>
+                        <li><a href="news.html">News</a></li>
+                        <li><a href="cyber-alerts.html">Cyber Alerts</a></li>
+                        <li><a href="investigations.html">Investigations</a></li>
+                        <li><a href="fact-check.html">Fact Check</a></li>
+                        <li><a href="osint-lab.html">OSINT Lab</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>COMPANY</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-newsletter">
+                    <h4>INTEL BRIEFINGS</h4>
+                    <p>Get the latest intelligence in your inbox</p>
+                    <form id="footerNewsletter" class="newsletter-form">
+                        <input type="email" placeholder="Enter your email" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                    <p style="font-size:0.65rem; opacity:0.3; margin-top:8px;">Powered by MK Global Nexus</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 The Nexus Report · A Digital Intelligence & Research Initiative of MK Global Nexus</span>
+                <span>Founded by Manoj Meena · <i class="fas fa-shield-halved"></i> Secure Connection</span>
+            </div>
+        </div>
+    </footer>
+
+    <button id="backToTop"><i class="fas fa-arrow-up"></i></button>
+    <div id="toastContainer"></div>
+
     <script src="assets/js/main.js"></script>
 </body>
 </html>
