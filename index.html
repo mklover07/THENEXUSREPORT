@@ -11,81 +11,247 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="The Nexus Report">
     <meta name="twitter:description" content="Digital intelligence & cyber security awareness platform.">
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <!-- HEADER -->
-        <header class="navbar">
-            <div class="logo">
-                <h1>THE <span>NEXUS</span> REPORT</h1>
-                <div class="tagline">Intelligence • Investigation • Verification</div>
-            </div>
-            <nav class="nav-links">
-                <a href="index.html" class="active">Home</a>
-                <a href="news.html">News</a>
-                <a href="cyber-alerts.html">Cyber Alerts</a>
-                <a href="investigations.html">Investigations</a>
-                <a href="fact-check.html">Fact Check</a>
-                <a href="osint-lab.html">OSINT Lab</a>
-                <a href="about.html">About</a>
-                <a href="contact.html">Contact</a>
-            </nav>
-        </header>
-
-        <!-- HERO -->
-        <section class="hero">
-            <h2>Digital Intelligence & <span class="highlight">Cyber Awareness</span></h2>
-            <p>Uncover scams, verify facts, and explore OSINT research. The Nexus Report delivers investigative journalism and cyber security intelligence for a safer digital world.</p>
-            <a href="news.html" class="btn"><i class="fas fa-bolt"></i> Explore Latest Reports</a>
-        </section>
-
-        <!-- LATEST NEWS -->
-        <div class="section-title"><i class="fas fa-newspaper"></i> Latest News</div>
-        <div class="card-grid" id="homeNews">
-            <!-- Dynamically loaded by JS -->
+    <!-- ====== PRELOADER ====== -->
+    <div id="preloader">
+        <div class="loader">
+            <div class="loader-ring"></div>
+            <div class="loader-text">NEXUS</div>
         </div>
-
-        <!-- CYBER ALERTS & FACT CHECK -->
-        <div class="two-col">
-            <div>
-                <div class="section-title" style="margin-top:0;"><i class="fas fa-exclamation-triangle" style="color: #ffaa33;"></i> Cyber Alerts</div>
-                <div id="homeAlerts"></div>
-            </div>
-            <div>
-                <div class="section-title" style="margin-top:0;"><i class="fas fa-check-circle" style="color: var(--accent);"></i> Fact Check</div>
-                <div id="homeFactCheck"></div>
-            </div>
-        </div>
-
-        <!-- OSINT LAB -->
-        <div class="section-title"><i class="fas fa-microscope"></i> OSINT Lab & Investigations</div>
-        <div class="card-grid" id="homeOsint"></div>
-
-        <!-- CTA -->
-        <section class="cta-section">
-            <h2>Stay Ahead of Threats</h2>
-            <p>Subscribe to our intelligence briefings — no spam, only verified research and cyber alerts.</p>
-            <a href="contact.html" class="btn"><i class="fas fa-envelope"></i> Get in Touch</a>
-        </section>
-
-        <!-- FOOTER -->
-        <footer class="footer">
-            <div>
-                <div class="brand">THE <span>NEXUS</span> REPORT</div>
-                <small>A Digital Intelligence & Research Initiative of MK Global Nexus</small>
-                <div style="margin-top:6px; font-size:0.8rem; opacity:0.4;">© 2026 · All rights reserved.</div>
-            </div>
-            <div class="social">
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                <a href="#"><i class="fab fa-github"></i></a>
-                <a href="#"><i class="fab fa-youtube"></i></a>
-            </div>
-        </footer>
     </div>
 
+    <!-- ====== TOP NOTIFICATION BAR ====== -->
+    <div id="notificationBar" class="notification-bar">
+        <span><i class="fas fa-shield-alt"></i> Live Threat Monitor: <span id="threatStatus">All systems nominal</span></span>
+        <button id="closeNotification"><i class="fas fa-times"></i></button>
+    </div>
+
+    <!-- ====== NAVIGATION ====== -->
+    <nav class="navbar glass">
+        <div class="container nav-container">
+            <div class="logo">
+                <h1><i class="fas fa-shield-halved" style="color: var(--secondary);"></i> THE <span>NEXUS</span> REPORT</h1>
+                <div class="tagline">Intelligence • Investigation • Verification</div>
+            </div>
+            <div class="nav-right">
+                <div class="clock" id="liveClock">
+                    <i class="fas fa-clock"></i> <span id="clockTime">--:--:--</span>
+                </div>
+                <ul class="nav-links" id="mainNav">
+                    <li><a href="index.html" class="active" data-page="home"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="news.html" data-page="news"><i class="fas fa-newspaper"></i> News</a></li>
+                    <li><a href="cyber-alerts.html" data-page="alerts"><i class="fas fa-exclamation-triangle"></i> Alerts</a></li>
+                    <li><a href="investigations.html" data-page="investigations"><i class="fas fa-search"></i> Investigations</a></li>
+                    <li><a href="fact-check.html" data-page="factcheck"><i class="fas fa-check-circle"></i> Fact Check</a></li>
+                    <li><a href="osint-lab.html" data-page="osint"><i class="fas fa-microscope"></i> OSINT Lab</a></li>
+                    <li><a href="about.html" data-page="about"><i class="fas fa-info-circle"></i> About</a></li>
+                    <li><a href="contact.html" data-page="contact"><i class="fas fa-envelope"></i> Contact</a></li>
+                </ul>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-container">
+        <!-- ====== HERO SECTION ====== -->
+        <section class="hero animate__animated animate__fadeIn">
+            <div class="hero-particles" id="heroParticles"></div>
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-bolt"></i> LIVE INTELLIGENCE
+                </div>
+                <h1 class="hero-title">
+                    Digital Intelligence & <br>
+                    <span class="gradient-text">Cyber Awareness</span>
+                </h1>
+                <p class="hero-desc">
+                    Uncover scams, verify facts, and explore OSINT research. 
+                    The Nexus Report delivers investigative journalism and cyber security 
+                    intelligence for a safer digital world.
+                </p>
+                <div class="hero-actions">
+                    <a href="news.html" class="btn btn-primary animate__animated animate__pulse animate__infinite">
+                        <i class="fas fa-bolt"></i> Explore Latest Reports
+                    </a>
+                    <a href="#featured" class="btn btn-outline">
+                        <i class="fas fa-arrow-down"></i> Learn More
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="1247">0</span>
+                        <span class="stat-label">Articles Published</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="89">0</span>
+                        <span class="stat-label">Investigations</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="156">0</span>
+                        <span class="stat-label">Scam Alerts</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== TRENDING TAGS ====== -->
+        <section class="trending-tags">
+            <div class="section-header">
+                <h2><i class="fas fa-fire" style="color: var(--accent);"></i> Trending Topics</h2>
+            </div>
+            <div class="tags-cloud" id="trendingTags">
+                <span class="tag">#Ransomware</span>
+                <span class="tag">#Phishing</span>
+                <span class="tag">#OSINT</span>
+                <span class="tag">#Cybersecurity</span>
+                <span class="tag">#Blockchain</span>
+                <span class="tag">#AI</span>
+                <span class="tag">#DataBreach</span>
+                <span class="tag">#ScamAlert</span>
+                <span class="tag">#DeepFake</span>
+                <span class="tag">#Malware</span>
+            </div>
+        </section>
+
+        <!-- ====== LATEST NEWS ====== -->
+        <section>
+            <div class="section-header">
+                <h2><i class="fas fa-newspaper" style="color: var(--secondary);"></i> Latest News</h2>
+                <a href="news.html" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="card-grid" id="homeNews">
+                <div class="loading-spinner"><i class="fas fa-spinner"></i></div>
+            </div>
+        </section>
+
+        <!-- ====== TWO COLUMN SECTION ====== -->
+        <div class="two-col-grid">
+            <section>
+                <div class="section-header">
+                    <h2><i class="fas fa-exclamation-triangle" style="color: #ffaa33;"></i> Cyber Alerts</h2>
+                    <a href="cyber-alerts.html" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div id="homeAlerts">
+                    <div class="loading-spinner"><i class="fas fa-spinner"></i></div>
+                </div>
+            </section>
+            <section>
+                <div class="section-header">
+                    <h2><i class="fas fa-check-circle" style="color: var(--accent);"></i> Fact Check</h2>
+                    <a href="fact-check.html" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div id="homeFactCheck">
+                    <div class="loading-spinner"><i class="fas fa-spinner"></i></div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ====== OSINT LAB ====== -->
+        <section>
+            <div class="section-header">
+                <h2><i class="fas fa-microscope" style="color: var(--secondary);"></i> OSINT Lab</h2>
+                <a href="osint-lab.html" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="card-grid" id="homeOsint">
+                <div class="loading-spinner"><i class="fas fa-spinner"></i></div>
+            </div>
+        </section>
+
+        <!-- ====== CTA SECTION ====== -->
+        <section class="cta-section glass">
+            <div class="cta-content">
+                <h2><i class="fas fa-shield-halved" style="color: var(--accent);"></i> Stay Ahead of Threats</h2>
+                <p>Subscribe to our intelligence briefings — no spam, only verified research and cyber alerts.</p>
+                <div class="cta-actions">
+                    <a href="contact.html" class="btn btn-primary">
+                        <i class="fas fa-envelope"></i> Get Started
+                    </a>
+                    <a href="about.html" class="btn btn-outline">
+                        <i class="fas fa-info-circle"></i> Learn More
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ====== FOOTER ====== -->
+    <footer class="footer glass">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h2><i class="fas fa-shield-halved" style="color: var(--secondary);"></i> THE <span>NEXUS</span> REPORT</h2>
+                    <p>A Digital Intelligence & Research Initiative of MK Global Nexus</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="#" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="news.html">News</a></li>
+                        <li><a href="cyber-alerts.html">Cyber Alerts</a></li>
+                        <li><a href="investigations.html">Investigations</a></li>
+                        <li><a href="fact-check.html">Fact Check</a></li>
+                        <li><a href="osint-lab.html">OSINT Lab</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Report a Scam</a></li>
+                    </ul>
+                </div>
+                <div class="footer-newsletter">
+                    <h4>Stay Updated</h4>
+                    <p>Get the latest intelligence in your inbox</p>
+                    <form id="footerNewsletter" class="newsletter-form">
+                        <input type="email" placeholder="Enter your email" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 The Nexus Report · All rights reserved</span>
+                <span>Made with <i class="fas fa-heart" style="color: #ff3333;"></i> for digital safety</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ====== BACK TO TOP ====== -->
+    <button id="backToTop" aria-label="Back to Top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- ====== TOAST CONTAINER ====== -->
+    <div id="toastContainer"></div>
+
+    <!-- ====== SCRIPTS ====== -->
     <script src="assets/js/main.js"></script>
 </body>
 </html>
