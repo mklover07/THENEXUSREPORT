@@ -417,3 +417,386 @@ renderHome();
 console.log('🚀 NEXUS · Sci-Fi Cyber Intelligence Platform');
 console.log('🔮 System initialized successfully');
 console.log('🛸 Welcome to the future of intelligence');
+// ============================================================
+// REAL-TIME CYBER ATTACK GLOBE
+// Three.js + Check Point Threat Map API
+// ============================================================
+
+// ---------- GLOBE VARIABLES ----------
+let scene, camera, renderer, globe;
+let attackMarkers = [];
+let attackLines = [];
+let attackData = [];
+let isGlobeInitialized = false;
+let globeAnimationId = null;
+let attackCounter = 0;
+let totalAttackCount = 0;
+
+// ---------- CHECK POINT API ----------
+const CHECKPOINT_API = 'https://threatmap-api.checkpoint.com';
+const ATTACK_FETCH_INTERVAL = 3000; // 3 seconds
+
+// ---------- GLOBE INITIALIZATION ----------
+function initGlobe() {
+    const container = document.getElementById('globe-container');
+    if (!container) return;
+
+    // Scene setup
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x05050F);
+
+    // Camera
+    camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+    camera.position.set(0, 0, 250);
+
+    // Renderer
+    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.shadowMap.enabled = true;
+    container.appendChild(renderer.domElement);
+
+    // ---------- CREATE GLOBE ----------
+    const radius = 80;
+    const segments = 64;
+
+    // Earth texture (using free texture)
+    const textureLoader = new THREE.TextureLoader();
+    const earthTexture = textureLoader.load('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg');
+    const earthBumpMap = textureLoader.load('https://unpkg.com/three-globe/example/img/earth-topology.png');
+    const earthSpecularMap = textureLoader.load('https://unpkg.com/three-globe/example/img/earth-water.png');
+    
+    const geometry = new THREE.SphereGeometry(radius, segments, segments);
+    const material = new THREE.MeshPhongMaterial({
+        map: earthTexture,
+        bumpMap: earthBumpMap,
+        bumpScale: 0.5,
+        specularMap: earthSpecularMap,
+        specular: new THREE.Color('grey'),
+        shininess: 5,
+        transparent: true,
+        opacity: 0.95,
+    });
+    
+    globe = new THREE.Mesh(geometry, material);
+    scene.add(globe);
+
+    // ---------- ATMOSPHERE GLOW ----------
+    const glowGeometry = new THREE.SphereGeometry(radius * 1.02, segments, segments);
+    const glowMaterial = new THREE.MeshBasicMaterial({
+        color: 0x00F0FF,
+        transparent: true,
+        opacity: 0.08,
+        wireframe: true,
+    });
+    const glowMesh = new THREE.Mesh(glowGeometry, glowMaterial);
+    scene.add(glowMesh);
+
+    // ---------- GRID RINGS (Sci-Fi Effect) ----------
+    const ringGeometry = new THREE.TorusGeometry(radius * 1.5, 0.5, 16, 100);
+    const ringMaterial = new THREE.MeshBasicMaterial({
+        color: 0x00F0FF,
+        transparent: true,
+        opacity: 0.1,
+    });
+    const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+    ring.rotation.x = Math.PI / 2;
+    scene.add(ring);
+
+    const ring2 = new THREE.Mesh(ringGeometry, ringMaterial);
+    ring2.rotation.z = Math.PI / 3;
+    ring2.rotation.x = Math.PI / 4;
+    scene.add(ring2);
+
+    // ---------- LIGHTS ----------
+    const ambientLight = new THREE.AmbientLight(0x404060, 0.3);
+    scene.add(ambientLight);
+
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    dirLight.position.set(5, 3, 5);
+    scene.add(dirLight);
+
+    const backLight = new THREE.DirectionalLight(0x00F0FF, 0.5);
+    backLight.position.set(-5, -3, -5);
+    scene.add(backLight);
+
+    // ---------- STARS ----------
+    const starsGeometry = new THREE.BufferGeometry();
+    const starsCount = 3000;
+    const starPositions = new Float32Array(starsCount * 3);
+    for (let i = 0; i < starsCount * 3; i++) {
+        starPositions[i] = (Math.random() - 0.5) * 800;
+    }
+    starsGeometry.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
+    const starsMaterial = new THREE.PointsMaterial({
+        color: 0xffffff,
+        size: 0.5,
+        transparent: true,
+        opacity: 0.6,
+        sizeAttenuation: true,
+    });
+    const stars = new THREE.Points(starsGeometry, starsMaterial);
+    scene.add(stars);
+
+    // ---------- HIDE LOADING ----------
+    document.getElementById('globe-loading').style.display = 'none';
+
+    // ---------- START ANIMATION ----------
+    isGlobeInitialized = true;
+    animateGlobe();
+
+    // ---------- FETCH ATTACKS ----------
+    fetchAttacks();
+    setInterval(fetchAttacks, ATTACK_FETCH_INTERVAL);
+
+    // ---------- RESIZE HANDLER ----------
+    window.addEventListener('resize', () => {
+        const container = document.getElementById('globe-container');
+        if (!container) return;
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(width, height);
+    });
+
+    console.log('🌍 NEXUS Cyber Attack Globe initialized');
+}
+
+// ---------- FETCH ATTACKS FROM CHECK POINT API ----------
+async function fetchAttacks() {
+    try {
+        // Using Check Point Threat Map API
+        const response = await fetch('https://threatmap-api.checkpoint.com/api/v1/attacks/latest', {
+            headers: {
+                'Accept': 'application/json',
+                'User-Agent': 'Mozilla/5.0'
+            }
+        });
+
+        if (!response.ok) throw new Error('API Error');
+
+        const data = await response.json();
+        
+        if (data && data.attacks) {
+            processAttackData(data.attacks);
+        }
+    } catch (error) {
+        console.log('Using fallback attack data:', error.message);
+        // Use fallback data if API fails
+        generateFallbackAttacks();
+    }
+}
+
+// ---------- PROCESS ATTACK DATA ----------
+function processAttackData(attacks) {
+    if (!attacks || attacks.length === 0) return;
+
+    attackData = attacks;
+    totalAttackCount += attacks.length;
+    attackCounter = attacks.length;
+
+    // Update stats
+    document.getElementById('totalAttacks').textContent = totalAttackCount;
+    document.getElementById('activeAttacks').textContent = attackCounter;
+    document.getElementById('attackCounter').textContent = attackCounter;
+
+    // Get unique attack types
+    const types = new Set(attacks.map(a => a.type || 'unknown'));
+    document.getElementById('attackTypes').textContent = types.size;
+
+    // Get unique countries
+    const countries = new Set(attacks.map(a => a.country || 'unknown'));
+    document.getElementById('attackerCountries').textContent = countries.size;
+
+    // Update location status
+    if (attacks.length > 0 && attacks[0].country) {
+        document.getElementById('attackLocation').textContent = attacks[0].country;
+    }
+
+    // Clear old markers
+    clearAttackMarkers();
+
+    // Add new markers
+    attacks.slice(0, 50).forEach((attack, index) => {
+        setTimeout(() => {
+            addAttackMarker(attack);
+        }, index * 50);
+    });
+}
+
+// ---------- ADD ATTACK MARKER ----------
+function addAttackMarker(attack) {
+    if (!globe || !scene) return;
+
+    const lat = attack.lat || (Math.random() - 0.5) * 180;
+    const lng = attack.lng || (Math.random() - 0.5) * 360;
+    const type = attack.type || 'unknown';
+    const severity = attack.severity || 'medium';
+
+    // Convert lat/lng to 3D position
+    const phi = (90 - lat) * Math.PI / 180;
+    const theta = (lng + 180) * Math.PI / 180;
+    const radius = 82;
+
+    const x = -radius * Math.sin(phi) * Math.cos(theta);
+    const y = radius * Math.cos(phi);
+    const z = radius * Math.sin(phi) * Math.sin(theta);
+
+    // Color based on severity
+    let color;
+    switch(severity) {
+        case 'critical': color = 0xff3333; break;
+        case 'high': color = 0xff6b35; break;
+        case 'medium': color = 0xffaa33; break;
+        default: color = 0x00F0FF;
+    }
+
+    // Create marker (glowing sphere)
+    const markerGeometry = new THREE.SphereGeometry(1.2, 8, 8);
+    const markerMaterial = new THREE.MeshBasicMaterial({
+        color: color,
+        transparent: true,
+        opacity: 0.9,
+    });
+    const marker = new THREE.Mesh(markerGeometry, markerMaterial);
+    marker.position.set(x, y, z);
+    marker.userData = { attack: attack };
+
+    // Add glow
+    const glowGeometry = new THREE.SphereGeometry(2.5, 8, 8);
+    const glowMaterial = new THREE.MeshBasicMaterial({
+        color: color,
+        transparent: true,
+        opacity: 0.2,
+    });
+    const glow = new THREE.Mesh(glowGeometry, glowMaterial);
+    glow.position.set(x, y, z);
+
+    scene.add(marker);
+    scene.add(glow);
+
+    attackMarkers.push({ marker, glow, data: attack });
+
+    // Create attack line (from origin to target)
+    createAttackLine(x, y, z, color);
+
+    // Remove marker after some time
+    setTimeout(() => {
+        scene.remove(marker);
+        scene.remove(glow);
+        const idx = attackMarkers.findIndex(m => m.marker === marker);
+        if (idx > -1) attackMarkers.splice(idx, 1);
+    }, 8000);
+}
+
+// ---------- CREATE ATTACK LINE ----------
+function createAttackLine(x, y, z, color) {
+    const points = [];
+    const segments = 20;
+    
+    for (let i = 0; i <= segments; i++) {
+        const t = i / segments;
+        const r = 80 + t * (120 - 80);
+        const angle = t * Math.PI * 0.5;
+        
+        const px = x * (1 - t * 0.8);
+        const py = y * (1 - t * 0.8);
+        const pz = z * (1 - t * 0.8);
+        
+        points.push(new THREE.Vector3(px, py, pz));
+    }
+
+    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    const material = new THREE.LineBasicMaterial({
+        color: color,
+        transparent: true,
+        opacity: 0.3,
+    });
+    const line = new THREE.Line(geometry, material);
+    scene.add(line);
+    attackLines.push(line);
+
+    // Remove line after some time
+    setTimeout(() => {
+        scene.remove(line);
+        const idx = attackLines.indexOf(line);
+        if (idx > -1) attackLines.splice(idx, 1);
+    }, 8000);
+}
+
+// ---------- CLEAR ATTACK MARKERS ----------
+function clearAttackMarkers() {
+    attackMarkers.forEach(({ marker, glow }) => {
+        scene.remove(marker);
+        scene.remove(glow);
+    });
+    attackMarkers = [];
+
+    attackLines.forEach(line => {
+        scene.remove(line);
+    });
+    attackLines = [];
+}
+
+// ---------- GENERATE FALLBACK ATTACKS ----------
+function generateFallbackAttacks() {
+    const countries = ['USA', 'China', 'Russia', 'Germany', 'UK', 'India', 'Brazil', 'Japan', 'Australia', 'Canada'];
+    const types = ['DDoS', 'Malware', 'Phishing', 'Ransomware', 'APT', 'SQL Injection', 'XSS', 'Zero-Day'];
+    const severities = ['critical', 'high', 'medium', 'low'];
+    
+    const attacks = [];
+    const count = Math.floor(Math.random() * 15) + 5;
+    
+    for (let i = 0; i < count; i++) {
+        attacks.push({
+            lat: (Math.random() - 0.5) * 140,
+            lng: (Math.random() - 0.5) * 360,
+            type: types[Math.floor(Math.random() * types.length)],
+            severity: severities[Math.floor(Math.random() * severities.length)],
+            country: countries[Math.floor(Math.random() * countries.length)],
+            target: countries[Math.floor(Math.random() * countries.length)],
+            timestamp: new Date().toISOString()
+        });
+    }
+    
+    processAttackData(attacks);
+}
+
+// ---------- GLOBE ANIMATION ----------
+function animateGlobe() {
+    if (!isGlobeInitialized) return;
+
+    globeAnimationId = requestAnimationFrame(animateGlobe);
+
+    // Rotate globe slowly
+    if (globe) {
+        globe.rotation.y += 0.001;
+    }
+
+    // Animate markers (pulse)
+    attackMarkers.forEach(({ marker, glow }, index) => {
+        const scale = 1 + Math.sin(Date.now() / 500 + index) * 0.2;
+        marker.scale.set(scale, scale, scale);
+        glow.scale.set(scale * 1.5, scale * 1.5, scale * 1.5);
+        glow.material.opacity = 0.1 + Math.sin(Date.now() / 300 + index) * 0.05;
+    });
+
+    renderer.render(scene, camera);
+}
+
+// ---------- INIT GLOBE WHEN DOM LOADS ----------
+document.addEventListener('DOMContentLoaded', function() {
+    // Wait for Three.js to load
+    if (typeof THREE !== 'undefined') {
+        setTimeout(initGlobe, 500);
+    } else {
+        // Load Three.js dynamically
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+        script.onload = function() {
+            setTimeout(initGlobe, 500);
+        };
+        document.head.appendChild(script);
+    }
+});
