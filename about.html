@@ -84,7 +84,7 @@
             </div>
         </section>
 
-        <!-- ====== FOUNDER SECTION ====== -->
+        <!-- ====== FOUNDER SECTION WITH TYPING ANIMATION ====== -->
         <section class="founder-section glass">
             <div class="section-header">
                 <h2><i class="fas fa-user-tie"></i> FOUNDER & CEO</h2>
@@ -94,10 +94,10 @@
                 <div class="founder-image">
                     <div class="founder-photo">
                         <img src="assets/images/founder.jpg" alt="Manoj Meena - Founder & CEO of MK Global Nexus" 
-                             onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22300%22%3E%3Crect fill=%22%230A0A1A%22 width=%22300%22 height=%22300%22/%3E%3Ctext x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%2300F0FF%22 font-size=%2272%22 font-family=%22Arial%22%3E👤%3C/text%3E%3C/svg%3E'">
+                             onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22300%22%3E%3Crect fill=%22%230A0A1A%22 width=%22300%22 height=%22300%22/%3E%3Ctext x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%2300C2FF%22 font-size=%2272%22 font-family=%22Arial%22%3E👤%3C/text%3E%3C/svg%3E'">
                     </div>
-                    <h2 class="founder-name">Manoj Meena</h2>
-                    <p class="founder-title">Founder & CEO · MK Global Nexus</p>
+                    <h2 class="founder-name" id="founderName">Manoj Meena</h2>
+                    <p class="founder-title" id="founderTitle">Founder & CEO · MK Global Nexus</p>
                     <div class="founder-tags">
                         <span class="founder-tag"><i class="fas fa-shield-alt"></i> Cyber Crime Analyst</span>
                         <span class="founder-tag"><i class="fas fa-search"></i> Digital Fraud Investigator</span>
@@ -106,17 +106,32 @@
                     </div>
                 </div>
 
-                <!-- Founder Info -->
+                <!-- Founder Info with Typing Animation -->
                 <div class="founder-info">
-                    <div class="founder-bio">
-                        <h3><i class="fas fa-quote-left" style="color: var(--secondary);"></i> About Manoj Meena</h3>
-                        <p><strong>Manoj Meena</strong> is the Founder & CEO of <strong>MK Global Nexus</strong>. His work focuses on cyber crime awareness, digital fraud analysis, investigative research, OSINT methodologies, technology intelligence, and public awareness initiatives.</p>
-                        <p>The mission is to promote responsible use of technology, cyber security awareness, evidence-based investigation, and digital literacy.</p>
+                    <div class="founder-bio terminal-box">
+                        <div class="terminal-header-small">
+                            <span class="terminal-dot red"></span>
+                            <span class="terminal-dot yellow"></span>
+                            <span class="terminal-dot green"></span>
+                            <span class="terminal-title">ABOUT_FOUNDER.md</span>
+                        </div>
+                        <div class="terminal-body-small" id="founderTerminal">
+                            <div class="terminal-line">
+                                <span class="terminal-prompt">></span>
+                                <span class="typing-text" id="typingBio"></span>
+                                <span class="cursor-blink">|</span>
+                            </div>
+                            <div class="terminal-line" id="terminalValues" style="display:none;">
+                                <span class="terminal-prompt">></span>
+                                <span class="typing-text" id="typingValues"></span>
+                            </div>
+                        </div>
                     </div>
 
+                    <!-- Core Values Section -->
                     <div class="founder-values">
                         <h3><i class="fas fa-star" style="color: var(--accent);"></i> Core Values</h3>
-                        <div class="values-grid">
+                        <div class="values-grid" id="valuesGrid">
                             <span class="value-tag">Truth First</span>
                             <span class="value-tag">Evidence-Based</span>
                             <span class="value-tag">Integrity</span>
@@ -187,7 +202,6 @@
                 <h2><i class="fas fa-flag"></i> BRAND IDENTITY</h2>
             </div>
             <div class="brand-grid">
-                <!-- Brand Personality -->
                 <div class="brand-card">
                     <h4><i class="fas fa-user-tie" style="color: var(--secondary);"></i> Brand Personality</h4>
                     <ul>
@@ -201,8 +215,6 @@
                         <li>Investigation Focused</li>
                     </ul>
                 </div>
-
-                <!-- Visual Style -->
                 <div class="brand-card">
                     <h4><i class="fas fa-eye" style="color: var(--accent2);"></i> Visual Style</h4>
                     <ul>
@@ -211,33 +223,6 @@
                         <li>Cyber Intelligence Design</li>
                         <li>Credibility Focused</li>
                         <li>Trust & Research Oriented</li>
-                        <li>Modern & Technology Driven</li>
-                    </ul>
-                </div>
-
-                <!-- Representation -->
-                <div class="brand-card">
-                    <h4><i class="fas fa-shield-halved" style="color: var(--accent);"></i> Brand Representation</h4>
-                    <ul>
-                        <li>Cyber Crime Analyst</li>
-                        <li>Digital Fraud Investigator</li>
-                        <li>Investigative Researcher</li>
-                        <li>Technology Professional</li>
-                        <li>Cyber Security Expert</li>
-                        <li>Founder of MK Global Nexus</li>
-                    </ul>
-                </div>
-
-                <!-- Values -->
-                <div class="brand-card">
-                    <h4><i class="fas fa-star" style="color: #ffaa33;"></i> Core Values</h4>
-                    <ul>
-                        <li>Truth First</li>
-                        <li>Evidence-Based Analysis</li>
-                        <li>Integrity & Professionalism</li>
-                        <li>Public Awareness</li>
-                        <li>Cyber Security Education</li>
-                        <li>Research-Oriented Thinking</li>
                     </ul>
                 </div>
             </div>
@@ -267,7 +252,7 @@
             </div>
         </section>
 
-        <!-- ====== CTA SECTION ====== -->
+        <!-- ====== CTA ====== -->
         <section class="cta">
             <div class="cta-content">
                 <h2>Connect with <span class="highlight-text">MK Global Nexus</span></h2>
