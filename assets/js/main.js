@@ -1,6 +1,6 @@
 // ============================================================
 // THE NEXUS REPORT - COMPLETE JAVASCRIPT
-// Typing Animation with Loop · Real-Time Data · All Features
+// Technical HUD Theme · Real-Time Data · All Features
 // ============================================================
 
 // ============================================================
@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('║     Founded by Manoj Meena                       ║');
     console.log('║                                                  ║');
     console.log('╚══════════════════════════════════════════════════╝');
+    console.log('🖥️  Technical HUD Theme Active');
 
     // ============================================================
     // TYPING ANIMATION WITH LOOP (Infinite)
@@ -411,6 +412,165 @@ document.addEventListener('DOMContentLoaded', function() {
     renderHome();
 
     // ============================================================
+    // REAL-TIME ATTACK MAP
+    // ============================================================
+    let map = null;
+    let attackMarkers = [];
+    let c2Markers = [];
+    let totalAttacks = 0;
+    let isMapInitialized = false;
+
+    // Country centroids for C2 mapping
+    const COUNTRY_CENTROIDS = {
+        'US': [39.8283, -98.5795],
+        'CN': [35.8617, 104.1954],
+        'RU': [61.5240, 105.3188],
+        'DE': [51.1657, 10.4515],
+        'GB': [55.3781, -3.4360],
+        'FR': [46.6033, 1.8883],
+        'JP': [36.2048, 138.2529],
+        'IN': [20.5937, 78.9629],
+        'BR': [-14.2350, -51.9253],
+        'AU': [-25.2744, 133.7751],
+        'CA': [56.1304, -106.3468],
+        'IT': [41.8719, 12.5674],
+        'ES': [40.4637, -3.7492],
+        'NL': [52.1326, 5.2913],
+        'SE': [60.1282, 18.6435],
+        'CH': [46.8182, 8.2275],
+        'PL': [51.9194, 19.1451],
+        'UA': [48.3794, 31.1656],
+        'KR': [35.9078, 127.7669],
+        'ID': [-0.7893, 113.9213],
+        'MX': [23.6345, -102.5528],
+        'AR': [-38.4161, -63.6167],
+        'ZA': [-30.5595, 22.9375],
+        'EG': [26.8206, 30.8025],
+        'SA': [23.8859, 45.0792],
+        'AE': [23.4241, 53.8478],
+        'SG': [1.3521, 103.8198],
+        'HK': [22.3193, 114.1694],
+        'TW': [23.6978, 120.9605],
+        'IL': [31.0461, 34.8516],
+        'TR': [38.9637, 35.2433],
+        'IR': [32.4279, 53.6880],
+        'PK': [30.3753, 69.3451],
+        'NG': [9.0820, 8.6753],
+        'KE': [-1.2864, 36.8172],
+    };
+
+    function initMap() {
+        const container = document.getElementById('attackMap');
+        if (!container) return;
+
+        // Check if Leaflet is loaded
+        if (typeof L === 'undefined') {
+            console.log('Leaflet not loaded yet, retrying...');
+            setTimeout(initMap, 1000);
+            return;
+        }
+
+        map = L.map('attackMap', {
+            center: [20, 0],
+            zoom: 2,
+            zoomControl: true,
+            fadeAnimation: true,
+            attributionControl: true,
+        });
+
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; CartoDB',
+            subdomains: 'abcd',
+            maxZoom: 19,
+            minZoom: 2,
+        }).addTo(map);
+
+        isMapInitialized = true;
+        console.log('🌍 Attack Map initialized');
+
+        // Start generating mock attacks
+        generateMockAttack();
+        setInterval(generateMockAttack, 3000);
+    }
+
+    function generateMockAttack() {
+        if (!map || !isMapInitialized) return;
+
+        const countries = ['US', 'CN', 'RU', 'DE', 'GB', 'IN', 'BR', 'JP', 'AU', 'CA', 'FR', 'IT', 'ES', 'NL', 'SE'];
+        const types = ['DDoS', 'Malware', 'Phishing', 'Ransomware', 'APT', 'SQL Injection', 'XSS', 'Zero-Day'];
+        const severities = ['critical', 'high', 'medium', 'low'];
+
+        const country = countries[Math.floor(Math.random() * countries.length)];
+        const coords = COUNTRY_CENTROIDS[country] || [Math.random() * 140 - 70, Math.random() * 360 - 180];
+
+        const lat = coords[0] + (Math.random() - 0.5) * 10;
+        const lng = coords[1] + (Math.random() - 0.5) * 10;
+        const severity = severities[Math.floor(Math.random() * severities.length)];
+
+        let color = '#00F0FF';
+        let size = 8;
+        let severityLabel = 'Low';
+
+        switch(severity) {
+            case 'critical': color = '#ff3333'; size = 12; severityLabel = 'Critical'; break;
+            case 'high': color = '#ff6b35'; size = 10; severityLabel = 'High'; break;
+            case 'medium': color = '#ffaa33'; size = 8; severityLabel = 'Medium'; break;
+            default: color = '#00F0FF'; size = 6; severityLabel = 'Low';
+        }
+
+        const marker = L.circleMarker([lat, lng], {
+            radius: size,
+            fillColor: color,
+            color: color,
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.6,
+            className: 'attack-marker',
+        }).addTo(map);
+
+        const type = types[Math.floor(Math.random() * types.length)];
+        marker.bindPopup(`
+            <div style="font-family: monospace; color: #0A0F1F;">
+                <strong style="color: ${color};">${severityLabel} Attack</strong><br>
+                Type: ${type}<br>
+                Location: ${country}<br>
+                Time: ${new Date().toLocaleTimeString()}
+            </div>
+        `);
+
+        const glow = L.circleMarker([lat, lng], {
+            radius: size * 2,
+            color: color,
+            weight: 1,
+            opacity: 0.2,
+            fillOpacity: 0.05,
+        }).addTo(map);
+
+        attackMarkers.push({ marker, glow });
+
+        // Update counter
+        document.getElementById('liveAttacks').textContent = attackMarkers.length;
+        document.getElementById('attackCount').textContent = attackMarkers.length;
+        document.getElementById('mapAttackCount').textContent = `${attackMarkers.length} attacks`;
+        totalAttacks++;
+        document.getElementById('totalAttacks').textContent = totalAttacks;
+
+        // Auto fade after 30 seconds
+        setTimeout(() => {
+            map.removeLayer(marker);
+            map.removeLayer(glow);
+            const idx = attackMarkers.findIndex(m => m.marker === marker);
+            if (idx > -1) attackMarkers.splice(idx, 1);
+            document.getElementById('liveAttacks').textContent = attackMarkers.length;
+            document.getElementById('attackCount').textContent = attackMarkers.length;
+            document.getElementById('mapAttackCount').textContent = `${attackMarkers.length} attacks`;
+        }, 30000);
+    }
+
+    // Initialize map after Leaflet loads
+    setTimeout(initMap, 1500);
+
+    // ============================================================
     // TOOLS MODAL
     // ============================================================
     function openTool(type) {
@@ -670,50 +830,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     console.log('✅ The Nexus Report - All Systems Ready!');
-    console.log('🚀 Features: Typing Animation · Real-Time Data · OSINT Tools');
-});
-// ============================================================
-// MATRIX RAIN BACKGROUND
-// ============================================================
-document.addEventListener('DOMContentLoaded', function() {
-    const canvas = document.getElementById('matrixCanvas');
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    let width, height, columns, drops;
-
-    function resizeCanvas() {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-        columns = Math.floor(width / 14);
-        drops = Array(columns).fill(1);
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ$@#%&*()_+-=[]{}|;:,.<>?/~';
-
-    function drawMatrix() {
-        ctx.fillStyle = 'rgba(5, 5, 15, 0.05)';
-        ctx.fillRect(0, 0, width, height);
-
-        ctx.fillStyle = '#00F0FF';
-        ctx.font = '12px monospace';
-
-        for (let i = 0; i < drops.length; i++) {
-            const char = chars[Math.floor(Math.random() * chars.length)];
-            const x = i * 14;
-            const y = drops[i] * 14;
-
-            ctx.fillStyle = Math.random() > 0.7 ? '#00FF41' : '#00F0FF';
-            ctx.fillText(char, x, y);
-
-            if (y > height || Math.random() > 0.99) {
-                drops[i] = 0;
-            }
-            drops[i]++;
-        }
-        requestAnimationFrame(drawMatrix);
-    }
-    drawMatrix();
+    console.log('🖥️  Technical HUD Theme Active');
+    console.log('🚀 Features: Typing Animation · Real-Time Map · OSINT Tools');
 });
