@@ -672,3 +672,48 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('✅ The Nexus Report - All Systems Ready!');
     console.log('🚀 Features: Typing Animation · Real-Time Data · OSINT Tools');
 });
+// ============================================================
+// MATRIX RAIN BACKGROUND
+// ============================================================
+document.addEventListener('DOMContentLoaded', function() {
+    const canvas = document.getElementById('matrixCanvas');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    let width, height, columns, drops;
+
+    function resizeCanvas() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        columns = Math.floor(width / 14);
+        drops = Array(columns).fill(1);
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ$@#%&*()_+-=[]{}|;:,.<>?/~';
+
+    function drawMatrix() {
+        ctx.fillStyle = 'rgba(5, 5, 15, 0.05)';
+        ctx.fillRect(0, 0, width, height);
+
+        ctx.fillStyle = '#00F0FF';
+        ctx.font = '12px monospace';
+
+        for (let i = 0; i < drops.length; i++) {
+            const char = chars[Math.floor(Math.random() * chars.length)];
+            const x = i * 14;
+            const y = drops[i] * 14;
+
+            ctx.fillStyle = Math.random() > 0.7 ? '#00FF41' : '#00F0FF';
+            ctx.fillText(char, x, y);
+
+            if (y > height || Math.random() > 0.99) {
+                drops[i] = 0;
+            }
+            drops[i]++;
+        }
+        requestAnimationFrame(drawMatrix);
+    }
+    drawMatrix();
+});
