@@ -1473,3 +1473,103 @@ a:hover { color: var(--accent); }
     .areas-grid { grid-template-columns: 1fr; }
     .about-hero h1 { font-size: 1.8rem; }
 }
+/* ---------- TYPING ANIMATION STYLES ---------- */
+/* इन्हें style.css के अंत में जोड़ें */
+
+/* Terminal Box */
+.terminal-box {
+    background: var(--input-bg);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.terminal-header-small {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border);
+}
+
+.terminal-body-small {
+    padding: 16px;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    min-height: 120px;
+    color: var(--text);
+}
+
+.terminal-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 3px 0;
+    opacity: 0.9;
+}
+
+.terminal-prompt {
+    color: var(--accent);
+    font-weight: 700;
+}
+
+/* Typing Text */
+.typing-text {
+    display: inline;
+    color: var(--text);
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* Cursor Blink */
+.cursor-blink {
+    display: inline-block;
+    color: var(--accent);
+    font-weight: 700;
+    animation: blink-cursor 0.7s step-end infinite;
+    margin-left: 2px;
+}
+
+@keyframes blink-cursor {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Values Grid - Animation */
+.value-tag {
+    opacity: 0;
+    transform: scale(0.8);
+    animation: fadeInScale 0.4s ease forwards;
+}
+
+.value-tag:nth-child(1) { animation-delay: 3.5s; }
+.value-tag:nth-child(2) { animation-delay: 3.8s; }
+.value-tag:nth-child(3) { animation-delay: 4.1s; }
+.value-tag:nth-child(4) { animation-delay: 4.4s; }
+.value-tag:nth-child(5) { animation-delay: 4.7s; }
+.value-tag:nth-child(6) { animation-delay: 5.0s; }
+.value-tag:nth-child(7) { animation-delay: 5.3s; }
+.value-tag:nth-child(8) { animation-delay: 5.6s; }
+
+@keyframes fadeInScale {
+    0% { opacity: 0; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+/* Responsive Terminal */
+@media (max-width: 768px) {
+    .terminal-body-small {
+        font-size: 0.75rem;
+        min-height: 100px;
+        padding: 12px;
+    }
+}
+@media (max-width: 480px) {
+    .terminal-body-small {
+        font-size: 0.7rem;
+        min-height: 80px;
+        padding: 10px;
+    }
+}
