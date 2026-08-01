@@ -472,3 +472,165 @@ if (canvas) {
 
 console.log('✅ The Nexus Report - All Systems Ready!');
 console.log('🖱️ Custom Cursor: CSS-based (Crosshair + Glow on hover)');
+// ============================================================
+// TYPING ANIMATION WITH LOOP (Infinite) - FIXED
+// ============================================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // --- TYPING DATA ---
+    const bioLines = [
+        'Manoj Meena is the Founder & CEO of MK Global Nexus.',
+        'His work focuses on cyber analysis, investigative research,',
+        'OSINT methodologies, technology intelligence, and digital literacy.',
+        '',
+        'The mission is to promote responsible use of technology,',
+        'cyber security awareness, and digital literacy.'
+    ];
+
+    const valuesText = 'Truth First · Evidence-Based · Integrity · Professionalism · Public Awareness · Cyber Security Education · Research-Oriented · Responsible Investigation';
+
+    // --- DOM ELEMENTS ---
+    const typingBio = document.getElementById('typingBio');
+    const typingValues = document.getElementById('typingValues');
+    const terminalValues = document.getElementById('terminalValues');
+
+    // --- TYPING ANIMATION - ONLY IF ELEMENTS EXIST ---
+    if (typingBio) {
+        
+        // --- STATE ---
+        let isDeleting = false;
+        let bioIndex = 0;
+        let charIndex = 0;
+        let currentText = '';
+        let valuesCharIndex = 0;
+        let isValuesDeleting = false;
+        let valuesCurrentText = '';
+        let isPaused = false;
+
+        // --- TYPE BIO ---
+        function typeBio() {
+            if (isPaused) return;
+
+            const fullText = bioLines[bioIndex] || '';
+
+            if (!isDeleting) {
+                if (charIndex < fullText.length) {
+                    currentText += fullText.charAt(charIndex);
+                    typingBio.textContent = currentText;
+                    charIndex++;
+                    const speed = 30 + Math.random() * 40;
+                    setTimeout(typeBio, speed);
+                } else {
+                    if (bioIndex < bioLines.length - 1) {
+                        bioIndex++;
+                        charIndex = 0;
+                        currentText += '\n';
+                        typingBio.textContent = currentText;
+                        setTimeout(typeBio, 300);
+                    } else {
+                        isPaused = true;
+                        if (terminalValues) terminalValues.style.display = 'block';
+                        setTimeout(() => {
+                            isPaused = false;
+                            typeValues();
+                        }, 800);
+                    }
+                }
+            }
+        }
+
+        // --- TYPE VALUES ---
+        function typeValues() {
+            if (isPaused) return;
+
+            if (!isValuesDeleting) {
+                if (valuesCharIndex < valuesText.length) {
+                    valuesCurrentText += valuesText.charAt(valuesCharIndex);
+                    if (typingValues) typingValues.textContent = valuesCurrentText;
+                    valuesCharIndex++;
+                    const speed = 20 + Math.random() * 30;
+                    setTimeout(typeValues, speed);
+                } else {
+                    isPaused = true;
+                    setTimeout(() => {
+                        isPaused = false;
+                        isValuesDeleting = true;
+                        deleteValues();
+                    }, 3000);
+                }
+            }
+        }
+
+        // --- DELETE VALUES ---
+        function deleteValues() {
+            if (isPaused) return;
+
+            if (valuesCurrentText.length > 0) {
+                valuesCurrentText = valuesCurrentText.slice(0, -1);
+                if (typingValues) typingValues.textContent = valuesCurrentText;
+                const speed = 15 + Math.random() * 20;
+                setTimeout(deleteValues, speed);
+            } else {
+                isValuesDeleting = false;
+                valuesCharIndex = 0;
+                isDeleting = true;
+                deleteBio();
+            }
+        }
+
+        // --- DELETE BIO ---
+        function deleteBio() {
+            if (isPaused) return;
+
+            if (currentText.length > 0) {
+                if (currentText.endsWith('\n')) {
+                    currentText = currentText.slice(0, -1);
+                }
+                currentText = currentText.slice(0, -1);
+                typingBio.textContent = currentText;
+                const speed = 15 + Math.random() * 25;
+                setTimeout(deleteBio, speed);
+            } else {
+                isDeleting = false;
+                bioIndex = 0;
+                charIndex = 0;
+                currentText = '';
+                if (terminalValues) terminalValues.style.display = 'none';
+                if (typingValues) typingValues.textContent = '';
+                valuesCurrentText = '';
+                valuesCharIndex = 0;
+                isValuesDeleting = false;
+
+                isPaused = true;
+                setTimeout(() => {
+                    isPaused = false;
+                    typeBio();
+                }, 1000);
+            }
+        }
+
+        // --- START TYPING ---
+        setTimeout(typeBio, 500);
+
+        // --- FOUNDER NAME GLOW ---
+        const founderName = document.getElementById('founderName');
+        if (founderName) {
+            setInterval(() => {
+                const glow = 0.2 + Math.random() * 0.3;
+                founderName.style.textShadow = `0 0 ${20 + Math.random() * 30}px rgba(0, 194, 255, ${glow})`;
+            }, 500);
+        }
+
+        // --- FOUNDER TITLE GLOW ---
+        const founderTitle = document.getElementById('founderTitle');
+        if (founderTitle) {
+            setInterval(() => {
+                const glow = 0.1 + Math.random() * 0.2;
+                founderTitle.style.textShadow = `0 0 ${10 + Math.random() * 20}px rgba(0, 194, 255, ${glow})`;
+            }, 800);
+        }
+
+        console.log('⌨️ Typing Animation with Loop Started!');
+    }
+});
