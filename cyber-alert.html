@@ -3,210 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyber Alerts — The Nexus Report</title>
-    <meta name="description" content="Latest scam alerts, phishing warnings, and fraud reports.">
+    <title>Cyber Alerts · The Nexus Report</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        /* Cyber Alerts specific styles */
-        .alert-urgent {
-            border-left: 4px solid #ff3333 !important;
-            background: rgba(255, 51, 51, 0.05) !important;
-        }
-        
-        .alert-high {
-            border-left: 4px solid #ffaa33 !important;
-            background: rgba(255, 170, 51, 0.05) !important;
-        }
-        
-        .alert-medium {
-            border-left: 4px solid #ffcc00 !important;
-            background: rgba(255, 204, 0, 0.05) !important;
-        }
-        
-        .alert-low {
-            border-left: 4px solid #33ccff !important;
-            background: rgba(51, 204, 255, 0.05) !important;
-        }
-        
-        .alert-badge {
-            font-weight: 700;
-            padding: 4px 12px;
-            border-radius: 20px;
-            display: inline-block;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .alert-badge.urgent {
-            background: #ff3333;
-            color: white;
-        }
-        
-        .alert-badge.high {
-            background: #ffaa33;
-            color: #0A192F;
-        }
-        
-        .alert-badge.medium {
-            background: #ffcc00;
-            color: #0A192F;
-        }
-        
-        .alert-badge.low {
-            background: #33ccff;
-            color: #0A192F;
-        }
-        
-        .alert-time {
-            color: #ff6b6b;
-            font-weight: 600;
-        }
-        
-        .alert-stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-            margin-bottom: 30px;
-        }
-        
-        .alert-stat-card {
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: var(--radius);
-            text-align: center;
-            border: 1px solid var(--border);
-        }
-        
-        .alert-stat-card .number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--secondary);
-        }
-        
-        .alert-stat-card .label {
-            font-size: 0.85rem;
-            opacity: 0.7;
-            margin-top: 4px;
-        }
-        
-        @media (max-width: 768px) {
-            .alert-stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        .refresh-btn {
-            background: var(--secondary);
-            color: #0A192F;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all var(--transition);
-            margin-left: 12px;
-        }
-        
-        .refresh-btn:hover {
-            background: var(--accent);
-            transform: scale(1.05);
-        }
-        
-        .refresh-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-    </style>
 </head>
 <body>
-    <div class="container">
-        <!-- HEADER -->
-        <header class="navbar">
-            <div class="logo">
-                <h1>THE <span>NEXUS</span> REPORT</h1>
-                <div class="tagline">Intelligence • Investigation • Verification</div>
-            </div>
-            <nav class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="news.html">News</a>
-                <a href="cyber-alerts.html" class="active">Cyber Alerts</a>
-                <a href="investigations.html">Investigations</a>
-                <a href="fact-check.html">Fact Check</a>
-                <a href="osint-lab.html">OSINT Lab</a>
-                <a href="about.html">About</a>
-                <a href="contact.html">Contact</a>
-            </nav>
-        </header>
 
-        <!-- PAGE HEADER -->
-        <div class="page-header">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
-                <div>
-                    <h2>🚨 Cyber Alerts</h2>
-                    <p>Latest scam alerts, phishing warnings, and fraud reports from around the world.</p>
+    <!-- PRELOADER -->
+    <div id="preloader">
+        <div class="preloader-ring"></div>
+        <div class="preloader-text">THE NEXUS REPORT</div>
+        <div class="preloader-sub">A Digital Intelligence & Research Initiative of MK Global Nexus</div>
+    </div>
+
+    <canvas id="particleCanvas"></canvas>
+    <div class="grid-overlay"></div>
+    <div class="scanline-overlay"></div>
+
+    <!-- STATUS BAR -->
+    <div class="status-bar">
+        <div class="container">
+            <div class="status-content">
+                <div class="status-left">
+                    <span class="status-dot"></span>
+                    <span class="status-text">SYSTEM: <span id="sysStatus">OPERATIONAL</span></span>
+                    <span class="status-divider">|</span>
+                    <span class="status-text">UPTIME: <span id="uptime">00:00:00</span></span>
                 </div>
-                <button class="refresh-btn" id="refreshAlerts">
-                    <i class="fas fa-sync-alt"></i> Refresh Alerts
+                <div class="status-right">
+                    <span class="status-text"><i class="fas fa-shield-alt"></i> THREAT LEVEL: <span id="threatLevel">LOW</span></span>
+                    <span class="status-divider">|</span>
+                    <span class="status-text" id="clockTime">--:--:--</span>
+                    <span class="status-divider">|</span>
+                    <span class="status-text"><i class="fas fa-shield-halved"></i> MK GLOBAL NEXUS</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <h1><i class="fas fa-shield-halved" style="color: var(--secondary);"></i> THE <span>NEXUS</span> REPORT</h1>
+                <span class="logo-sub">Intelligence · Investigation · Verification</span>
+            </div>
+            <div class="nav-right">
+                <ul class="nav-links" id="mainNav">
+                    <li><a href="index.html"><i class="fas fa-home"></i> HOME</a></li>
+                    <li><a href="news.html"><i class="fas fa-newspaper"></i> NEWS</a></li>
+                    <li><a href="cyber-alerts.html" class="active"><i class="fas fa-exclamation-triangle"></i> ALERTS</a></li>
+                    <li><a href="investigations.html"><i class="fas fa-search"></i> INVESTIGATIONS</a></li>
+                    <li><a href="fact-check.html"><i class="fas fa-check-circle"></i> FACT CHECK</a></li>
+                    <li><a href="osint-lab.html"><i class="fas fa-microscope"></i> OSINT LAB</a></li>
+                    <li><a href="about.html"><i class="fas fa-info-circle"></i> ABOUT</a></li>
+                    <li><a href="contact.html"><i class="fas fa-envelope"></i> CONTACT</a></li>
+                </ul>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
                 </button>
             </div>
         </div>
+    </nav>
 
-        <!-- STATS -->
-        <div class="alert-stats" id="alertStats">
-            <div class="alert-stat-card">
-                <div class="number" id="totalAlerts">0</div>
-                <div class="label">Total Alerts</div>
+    <div class="container main-container">
+
+        <section class="page-header">
+            <h2><i class="fas fa-exclamation-triangle" style="color: #ffaa33;"></i> Cyber Alerts</h2>
+            <p>Latest scam alerts, phishing warnings, and fraud reports from around the world.</p>
+        </section>
+
+        <!-- ALERTS STATS -->
+        <div class="alert-stats">
+            <div class="stat-card">
+                <span class="stat-number" id="totalAlerts">0</span>
+                <span class="stat-label">TOTAL ALERTS</span>
             </div>
-            <div class="alert-stat-card">
-                <div class="number" id="urgentAlerts" style="color: #ff3333;">0</div>
-                <div class="label">🚨 Urgent</div>
+            <div class="stat-card">
+                <span class="stat-number" id="urgentAlerts" style="color: #ff3333;">0</span>
+                <span class="stat-label">🚨 URGENT</span>
             </div>
-            <div class="alert-stat-card">
-                <div class="number" id="highAlerts" style="color: #ffaa33;">0</div>
-                <div class="label">⚠️ High</div>
+            <div class="stat-card">
+                <span class="stat-number" id="highAlerts" style="color: #ff6b35;">0</span>
+                <span class="stat-label">⚠️ HIGH</span>
             </div>
-            <div class="alert-stat-card">
-                <div class="number" id="mediumAlerts" style="color: #ffcc00;">0</div>
-                <div class="label">📢 Medium</div>
+            <div class="stat-card">
+                <span class="stat-number" id="mediumAlerts" style="color: #ffaa33;">0</span>
+                <span class="stat-label">📢 MEDIUM</span>
             </div>
         </div>
 
         <!-- ALERTS GRID -->
         <div class="card-grid" id="alertsGrid">
-            <div class="loading-spinner" style="grid-column: 1/-1;">
-                <i class="fas fa-spinner"></i> Loading alerts...
-            </div>
+            <div class="loading-spinner"><i class="fas fa-spinner"></i></div>
         </div>
 
-        <!-- CTA SECTION -->
-        <section class="cta-section">
-            <h2>🔒 Stay Protected</h2>
-            <p>Subscribe to get real-time cyber alerts and security updates directly in your inbox.</p>
-            <a href="contact.html" class="btn"><i class="fas fa-envelope"></i> Get Alerts</a>
-        </section>
+        <!-- REFRESH BUTTON -->
+        <div style="text-align:center; margin:20px 0;">
+            <button class="btn btn-primary" id="refreshAlerts">
+                <i class="fas fa-sync-alt"></i> Refresh Alerts
+            </button>
+        </div>
 
-        <!-- FOOTER -->
-        <footer class="footer">
-            <div>
-                <div class="brand">THE <span>NEXUS</span> REPORT</div>
-                <small>A Digital Intelligence & Research Initiative of MK Global Nexus</small>
-                <div style="margin-top:6px; font-size:0.8rem; opacity:0.4;">© 2026 · All rights reserved.</div>
-            </div>
-            <div class="social">
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                <a href="#"><i class="fab fa-github"></i></a>
-                <a href="#"><i class="fab fa-youtube"></i></a>
-            </div>
-        </footer>
     </div>
 
-    <!-- BACK TO TOP -->
-    <button id="backToTop" aria-label="Back to Top">
-        <i class="fas fa-arrow-up"></i>
-    </button>
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h2><i class="fas fa-shield-halved" style="color: var(--secondary);"></i> THE <span>NEXUS</span> REPORT</h2>
+                    <p class="footer-tagline">Intelligence · Investigation · Verification</p>
+                    <p class="footer-org">A Digital Intelligence & Research Initiative of <strong>MK Global Nexus</strong></p>
+                    <p class="footer-founder">Founded by <strong>Manoj Meena</strong></p>
+                </div>
+                <div class="footer-links">
+                    <h4>PLATFORM</h4>
+                    <ul>
+                        <li><a href="news.html">News</a></li>
+                        <li><a href="cyber-alerts.html">Cyber Alerts</a></li>
+                        <li><a href="investigations.html">Investigations</a></li>
+                        <li><a href="fact-check.html">Fact Check</a></li>
+                        <li><a href="osint-lab.html">OSINT Lab</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>COMPANY</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-newsletter">
+                    <h4>INTEL BRIEFINGS</h4>
+                    <p>Get the latest intelligence in your inbox</p>
+                    <form id="footerNewsletter" class="newsletter-form">
+                        <input type="email" placeholder="Enter your email" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 The Nexus Report · A Digital Intelligence & Research Initiative of MK Global Nexus</span>
+                <span>Founded by Manoj Meena · <i class="fas fa-shield-halved"></i> Secure Connection</span>
+            </div>
+        </div>
+    </footer>
+
+    <button id="backToTop"><i class="fas fa-arrow-up"></i></button>
+    <div id="toastContainer"></div>
 
     <script src="assets/js/main.js"></script>
 </body>
