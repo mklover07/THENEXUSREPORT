@@ -1573,3 +1573,127 @@ a:hover { color: var(--accent); }
         padding: 10px;
     }
 }
+/* ---------- TYPING ANIMATION STYLES ---------- */
+/* इन्हें style.css के अंत में जोड़ें */
+
+/* Terminal Box */
+.terminal-box {
+    background: var(--input-bg);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.terminal-header-small {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border);
+}
+
+.terminal-body-small {
+    padding: 16px;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    min-height: 160px;
+    max-height: 200px;
+    overflow-y: auto;
+    color: var(--text);
+    line-height: 1.6;
+}
+
+.terminal-line {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 2px 0;
+    opacity: 0.95;
+}
+
+.terminal-prompt {
+    color: var(--accent);
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+/* Typing Text */
+.typing-text {
+    display: inline;
+    color: var(--text);
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* Cursor Blink */
+.cursor-blink {
+    display: inline-block;
+    color: var(--accent);
+    font-weight: 700;
+    animation: blink-cursor 0.7s step-end infinite;
+    margin-left: 2px;
+    font-size: 1.1rem;
+}
+
+@keyframes blink-cursor {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Values Grid - Stagger Animation */
+.value-tag {
+    opacity: 0;
+    transform: scale(0.8);
+    animation: fadeInScale 0.4s ease forwards;
+}
+
+/* Animation delays - जब values टाइप होने लगेंगी तब ये animate होंगी */
+.value-tag:nth-child(1) { animation-delay: 2.5s; }
+.value-tag:nth-child(2) { animation-delay: 2.8s; }
+.value-tag:nth-child(3) { animation-delay: 3.1s; }
+.value-tag:nth-child(4) { animation-delay: 3.4s; }
+.value-tag:nth-child(5) { animation-delay: 3.7s; }
+.value-tag:nth-child(6) { animation-delay: 4.0s; }
+.value-tag:nth-child(7) { animation-delay: 4.3s; }
+.value-tag:nth-child(8) { animation-delay: 4.6s; }
+
+@keyframes fadeInScale {
+    0% { opacity: 0; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+/* Responsive Terminal */
+@media (max-width: 768px) {
+    .terminal-body-small {
+        font-size: 0.75rem;
+        min-height: 140px;
+        max-height: 180px;
+        padding: 12px;
+    }
+    .terminal-line {
+        gap: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .terminal-body-small {
+        font-size: 0.7rem;
+        min-height: 120px;
+        max-height: 160px;
+        padding: 10px;
+    }
+}
+
+/* Scrollbar for terminal */
+.terminal-body-small::-webkit-scrollbar {
+    width: 3px;
+}
+.terminal-body-small::-webkit-scrollbar-track {
+    background: transparent;
+}
+.terminal-body-small::-webkit-scrollbar-thumb {
+    background: var(--secondary);
+    border-radius: 10px;
+}
