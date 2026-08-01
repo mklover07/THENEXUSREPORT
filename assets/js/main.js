@@ -592,3 +592,73 @@ function setupNewsletter() {
 
 console.log('✅ Real-Time Cyber Intelligence Engine Running');
 console.log('📡 Sources: Check Point SSE, ThreatFox, Feodo, NVD, CISA');
+// ============================================================
+// TYPING ANIMATION FOR FOUNDER SECTION
+// ============================================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Founder Bio Text
+    const bioText = `Manoj Meena is the Founder & CEO of MK Global Nexus. His work focuses on cyber analysis, investigative research, OSINT methodologies, technology intelligence, and digital literacy.\n\nThe mission is to promote responsible use of technology, cyber security awareness, and digital literacy.`;
+
+    // Core Values Text
+    const valuesText = `Truth First · Evidence-Based · Integrity · Professionalism · Public Awareness · Cyber Security Education · Research-Oriented · Responsible Investigation`;
+
+    // DOM Elements
+    const typingBio = document.getElementById('typingBio');
+    const typingValues = document.getElementById('typingValues');
+    const terminalValues = document.getElementById('terminalValues');
+
+    if (!typingBio) return;
+
+    // Type Bio
+    let charIndex = 0;
+    let isTyping = true;
+
+    function typeBio() {
+        if (charIndex < bioText.length) {
+            typingBio.textContent += bioText.charAt(charIndex);
+            charIndex++;
+            const speed = 20 + Math.random() * 30; // Random speed for natural feel
+            setTimeout(typeBio, speed);
+        } else {
+            // Bio typing complete, show values after pause
+            setTimeout(() => {
+                terminalValues.style.display = 'block';
+                typeValues();
+            }, 800);
+        }
+    }
+
+    // Type Values
+    function typeValues() {
+        let valIndex = 0;
+        function typeValue() {
+            if (valIndex < valuesText.length) {
+                typingValues.textContent += valuesText.charAt(valIndex);
+                valIndex++;
+                const speed = 15 + Math.random() * 25;
+                setTimeout(typeValue, speed);
+            }
+        }
+        typeValue();
+    }
+
+    // Start typing after page load
+    setTimeout(typeBio, 500);
+
+    // Founder Name Glow Effect
+    const founderName = document.getElementById('founderName');
+    if (founderName) {
+        setInterval(() => {
+            founderName.style.textShadow = `0 0 20px rgba(0, 194, 255, ${0.2 + Math.random() * 0.3})`;
+        }, 500);
+    }
+
+    // Founder Title Glow Effect
+    const founderTitle = document.getElementById('founderTitle');
+    if (founderTitle) {
+        setInterval(() => {
+            founderTitle.style.textShadow = `0 0 15px rgba(0, 194, 255, ${0.1 + Math.random() * 0.2})`;
+        }, 800);
+    }
+});
